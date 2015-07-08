@@ -3,13 +3,31 @@
   <ItemGroup>
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="src\Tool\Init.cpp">
+      <Filter>src\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tool\Sprite.cpp">
+      <Filter>src\Tool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="src\Tool\Init.h">
+      <Filter>src\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tool\Sprite.h">
+      <Filter>src\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tool\Vec.h">
+      <Filter>src\Tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
       <UniqueIdentifier>{53d35ada-f8b0-4fda-af3a-6ea277e33db6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Tool">
+      <UniqueIdentifier>{e3d53646-6c11-42e3-9695-2cfc5132f2fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
