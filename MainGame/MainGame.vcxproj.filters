@@ -9,6 +9,12 @@
     <ClCompile Include="src\Tool\Sprite.cpp">
       <Filter>src\Tool</Filter>
     </ClCompile>
+    <ClCompile Include="src\tileset.cpp">
+      <Filter>src\Tilemap</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tilemap.cpp">
+      <Filter>src\Tilemap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -21,6 +27,12 @@
     <ClInclude Include="src\Tool\Vec.h">
       <Filter>src\Tool</Filter>
     </ClInclude>
+    <ClInclude Include="src\tilemap.h">
+      <Filter>src\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tileset.h">
+      <Filter>src\Tilemap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -29,5 +41,11 @@
     <Filter Include="src\Tool">
       <UniqueIdentifier>{e3d53646-6c11-42e3-9695-2cfc5132f2fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Tilemap">
+      <UniqueIdentifier>{51176ea2-0f4b-433c-97fb-770808ae1e9f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\config\config.ini" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "src\Tool\Init.h"
+#include "src\tilemap.h"
 
 ALLEGRO_DISPLAY     *display = nullptr;
 ALLEGRO_EVENT_QUEUE *queue = nullptr;
@@ -30,6 +31,7 @@ bool Init()
     al_install_keyboard();
     al_install_mouse();
     al_init_primitives_addon();
+    al_init_image_addon();
     al_init_font_addon();
     al_init_ttf_addon();
 
@@ -58,6 +60,8 @@ void AppBody()
 
     bool done = false;
     bool redraw = false;
+
+    Tilemap map("dummy");
 
     while (!done)
     {
@@ -92,6 +96,7 @@ void AppBody()
         {
             redraw = false;
             al_clear_to_color(styleConfig.colBackgroundColor);
+            al_draw_bitmap(map.getImage(), 0.0, 0.0, NULL);
             al_flip_display();
         }
     }
