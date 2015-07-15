@@ -9,6 +9,8 @@ Tilemap::Tilemap(std::string filename)
     mapHeight = 5;
     mapWidth  = 5;
 
+    int length = mapHeight * mapWidth;
+    mapData = new int[length];
     map = al_create_bitmap(mapWidth*tileSize, mapHeight*tileSize);
 
     initTestMap();
@@ -47,6 +49,7 @@ void Tilemap::drawMap()
                int sy = set->tileset[tileID].gfxY;
 
                al_draw_bitmap_region(set->graphic, sx, sy, size, size, x, y, NULL);
+               i++;
             }
         }
     }
@@ -58,13 +61,13 @@ void Tilemap::drawMap()
 void Tilemap::initTestMap()
 {
     int length = mapHeight * mapWidth;
-    mapData = new int[length];
+
     for (int i = 0; i < length; i++)
     {
-        mapData[i] = 0;
+      mapData[i] = 0;
     }
 
-    mapData[6] = 1;
-    mapData[12] = 1;
-    mapData[18] = 1;
+    mapData[6] = 2;
+    mapData[12] = 2;
+    mapData[18] = 2;
 }
