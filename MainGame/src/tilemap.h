@@ -25,6 +25,7 @@ it to a backbuffer.
 struct conf {
     int tSize;
     int mHeight, mWidth;
+    int special; // special Tile that is not valid that prevents one cell draw.
     std::string tilesetName;
     std::string tiles;
 };
@@ -39,7 +40,7 @@ public:
 private:
     TileSet *set;
     ALLEGRO_BITMAP *map;
-    int mapHeight, mapWidth;
+    int mapHeight, mapWidth, special;
     int *mapData;
 
     void drawMap();

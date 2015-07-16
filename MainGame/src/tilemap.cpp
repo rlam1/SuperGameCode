@@ -15,6 +15,7 @@ Tilemap::Tilemap(std::string filename)
     confData.tSize = std::stoi(al_get_config_value(configFile, NULL, "TILE_SIZE"));
     confData.mHeight = std::stoi(al_get_config_value(configFile, NULL, "MAP_HEIGHT"));
     confData.mWidth = std::stoi(al_get_config_value(configFile, NULL, "MAP_WIDTH"));
+    confData.special = std::stoi(al_get_config_value(configFile, NULL, "SPECIAL"));
     confData.tilesetName = al_get_config_value(configFile, NULL, "TILESET_RES_LOC");
     confData.tiles = al_get_config_value(configFile, NULL, "TILE_DATA");
     al_destroy_config(configFile);
@@ -23,6 +24,7 @@ Tilemap::Tilemap(std::string filename)
     set = new TileSet(confData.tilesetName, confData.tSize);
     mapHeight = confData.mHeight;
     mapWidth = confData.mWidth;
+    special = confData.special;
 
     int length = mapWidth * mapHeight;
     mapData = new int[length];
@@ -87,10 +89,14 @@ void Tilemap::drawMap()
             if (i < length) // dont try to read beyond the array
             {
                int tileID = mapData[i];
-               int sx = set->tileset[tileID].gfxX;
-               int sy = set->tileset[tileID].gfxY;
+               // if tileID != special
+               if (tileID != special)
+               {
+                   int sx = set->tileset[tileID].gfxX;
+                   int sy = set->tileset[tileID].gfxY;
 
-               al_draw_bitmap_region(set->graphic, sx, sy, size, size, x, y, NULL);
+                   al_draw_bitmap_region(set->graphic, sx, sy, size, size, x, y, NULL);
+               }
                i++;
             }
         }
@@ -116,5 +122,5 @@ void Tilemap::initTestMap()
 
 void Tilemap::zeroConfData()
 {
-    confData = { 0, 0, 0, "", "" };
+    confData = { 0, 0, 0, 0, "", "" };
 }
