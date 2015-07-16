@@ -18,8 +18,8 @@ The tileset calculates its data from the size value tilemap gives, and
 the internal allegro routines to determine width and height. In the future it
 will also check for properties of each tile (see tileset.cpp - LoadData().
 
-Next step is connecting tilemap with tileset to load a sample and try to draw
-it to a backbuffer.
+Add the possibility to access specific tile properties on the map when they
+are inplemented.
 */
 
 struct conf {
