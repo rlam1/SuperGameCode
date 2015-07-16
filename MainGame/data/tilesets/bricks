@@ -1,6 +1,7 @@
 TILE_SIZE=16
 MAP_HEIGHT=10
 MAP_WIDTH=10
+SPECIAL=8 #An invalid tile in the tileset that has special handling (skips a cell in the tilemap when drawing)
 TILESET_RES_LOC=bricks.png
 TILE_DATA=8 8 8 8 8 8 8 3 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 2 2 2 8 8 8 8 8 8 8 8 8 8 8 6 7 8 8 8 8 1 8 1 8 4 5 8 8 8 1 1 8 1 1 4 5 8 8 1 1 1 8 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 # it is a 10x10 sample mario map
