@@ -61,7 +61,7 @@ void AppBody()
     bool done = false;
     bool redraw = false;
 
-    Tilemap map("dummy");
+    Tilemap map("data/tilesets/bricks");
 
     while (!done)
     {
