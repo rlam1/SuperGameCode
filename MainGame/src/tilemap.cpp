@@ -7,8 +7,8 @@ Tilemap::Tilemap(std::string filename)
     configFile = al_load_config_file(filename.c_str());
     if (configFile == nullptr)
     {
-        std::cerr << "Invalid configuration state! " << this << " will use test mode." << std::endl;
-        *this = Tilemap();
+        std::cerr << "Invalid configuration state! " << this << " will be invalid!" << std::endl;
+        return;
     }
 
     zeroConfData(); // put default values in all fields.
