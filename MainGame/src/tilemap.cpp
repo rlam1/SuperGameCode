@@ -3,11 +3,53 @@
 
 Tilemap::Tilemap(std::string filename)
 {
+    ALLEGRO_CONFIG *configFile = nullptr;
+    configFile = al_load_config_file(filename.c_str());
+    if (configFile == nullptr)
+    {
+        std::cerr << "Invalid configuration state! " << this << " will use test mode." << std::endl;
+        *this = Tilemap();
+    }
+
+    zeroConfData(); // put default values in all fields.
+    confData.tSize = std::stoi(al_get_config_value(configFile, NULL, "TILE_SIZE"));
+    confData.mHeight = std::stoi(al_get_config_value(configFile, NULL, "MAP_HEIGHT"));
+    confData.mWidth = std::stoi(al_get_config_value(configFile, NULL, "MAP_WIDTH"));
+    confData.tilesetName = al_get_config_value(configFile, NULL, "TILESET_RES_LOC");
+    confData.tiles = al_get_config_value(configFile, NULL, "TILE_DATA");
+    al_destroy_config(configFile);
+    // Write values to memory now:
+
+    set = new TileSet(confData.tilesetName, confData.tSize);
+    mapHeight = confData.mHeight;
+    mapWidth = confData.mWidth;
+
+    int length = mapWidth * mapHeight;
+    mapData = new int[length];
+    map = al_create_bitmap(mapWidth * confData.tSize, mapHeight * confData.tSize);
+
+    std::stringstream dataStream(confData.tiles);
+    int value = 0;
+    int i = 0;
+    while (dataStream >> value)
+    {
+        if (i < length)
+        {
+            mapData[i] = value;
+            i++;
+        }
+    }
+
+    drawMap();
+}
+
+Tilemap::Tilemap()
+{
     int tileSize = 16;
     set = new TileSet("bricks", tileSize);
 
     mapHeight = 5;
-    mapWidth  = 5;
+    mapWidth = 5;
 
     int length = mapHeight * mapWidth;
     mapData = new int[length];
@@ -70,4 +112,9 @@ void Tilemap::initTestMap()
     mapData[6] = 2;
     mapData[12] = 2;
     mapData[18] = 2;
+}
+
+void Tilemap::zeroConfData()
+{
+    confData = { 0, 0, 0, "", "" };
 }

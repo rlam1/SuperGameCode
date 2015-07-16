@@ -7,7 +7,7 @@ TileSet::TileSet(std::string filename, int size)
 {
     std::string res = "data/tilesets/";
     res += filename;
-    res += ".png\0";
+    //res += ".png\0";
     graphic = al_load_bitmap(res.c_str());
     if (graphic == nullptr)
     {
