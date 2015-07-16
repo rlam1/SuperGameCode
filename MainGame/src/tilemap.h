@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "tileset.h"
 
+#include <sstream>
+
 // http://www.cplusplus.com/forum/general/18315/
 // https://en.wikipedia.org/wiki/Rule_of_three_(C%2B%2B_programming)
 
@@ -20,8 +22,16 @@ Next step is connecting tilemap with tileset to load a sample and try to draw
 it to a backbuffer.
 */
 
+struct conf {
+    int tSize;
+    int mHeight, mWidth;
+    std::string tilesetName;
+    std::string tiles;
+};
+
 class Tilemap {
 public:
+    Tilemap(); // For generating a test map.
     Tilemap(std::string filename);
     ~Tilemap();
 
@@ -34,4 +44,7 @@ private:
 
     void drawMap();
     void initTestMap();
+    void zeroConfData();
+
+    conf confData;
 };
