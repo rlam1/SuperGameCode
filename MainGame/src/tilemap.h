@@ -19,9 +19,7 @@ will also check for properties of each tile (see tileset.cpp - LoadData().
 
 /*
 TODO:
-
- * Add the possibility to access specific tile properties on the map,
-   when they are inplemented.
+ ... Blank right now
 */
 
 struct conf {
@@ -39,6 +37,8 @@ public:
     ~Tilemap();
 
     ALLEGRO_BITMAP* getImage();
+    Tile* getTile(int x, int y);
+
 private:
     TileSet *set;
     ALLEGRO_BITMAP *map;

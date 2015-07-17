@@ -10,7 +10,6 @@ ALLEGRO_EVENT_QUEUE *queue = nullptr;
 ALLEGRO_TIMER       *timer = nullptr;
 ALLEGRO_FONT        *textFont = nullptr;
 
-std::string appName = "";
 InitData  applicationConfig;
 StyleData styleConfig;
 
@@ -62,6 +61,8 @@ void AppBody()
     bool redraw = false;
 
     Tilemap map("data/tilesets/bricks");
+    Tile *test = map.getTile(0, 4);
+    std::cout << test << " " << test->gfxX << " " << test->gfxY << std::endl;
 
     while (!done)
     {
