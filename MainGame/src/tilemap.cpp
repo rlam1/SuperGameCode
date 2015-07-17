@@ -85,6 +85,21 @@ ALLEGRO_BITMAP* Tilemap::getImage()
     return map;
 }
 
+Tile* Tilemap::getTile(int x, int y)
+{
+    bool xinrange = (x >= 0) || (x < mapWidth);
+    bool yinrange = (y >= 0) || (x < mapHeight);
+
+    if (xinrange && yinrange)
+    {
+        int id = mapData[(y*mapHeight) + x];
+        return &set->tileset[id];
+    } else
+    {
+        return nullptr;
+    }
+}
+
 void Tilemap::drawMap()
 {
     al_set_target_bitmap(map);
