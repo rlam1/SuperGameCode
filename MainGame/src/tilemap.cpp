@@ -42,6 +42,18 @@ Tilemap::Tilemap(std::string filename)
         }
     }
 
+    /*
+    In case the mapData is corrupt, at least fill with a valid value.
+    map data will be corrupted and possibly render game unplayable, but
+    at least it will not crash hard on the player with an invalid pointer
+    ttrying to read other memory regions.
+    */
+    while (i < length)
+    {
+        mapData[i] = special;
+        i++;
+    }
+
     drawMap();
 }
 

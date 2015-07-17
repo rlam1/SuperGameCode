@@ -7,9 +7,7 @@
 // http://www.cplusplus.com/forum/general/18315/
 // https://en.wikipedia.org/wiki/Rule_of_three_(C%2B%2B_programming)
 
-/*
-TODO:
-
+/* Tilemap System
 Tilemap holds a map of tiles that makes a world.
 Each map is made of a specific tileset which holds each individual
 tile and its position on the tileset.
@@ -17,9 +15,13 @@ tile and its position on the tileset.
 The tileset calculates its data from the size value tilemap gives, and
 the internal allegro routines to determine width and height. In the future it
 will also check for properties of each tile (see tileset.cpp - LoadData().
+*/
 
-Add the possibility to access specific tile properties on the map when they
-are inplemented.
+/*
+TODO:
+
+ * Add the possibility to access specific tile properties on the map,
+   when they are inplemented.
 */
 
 struct conf {
