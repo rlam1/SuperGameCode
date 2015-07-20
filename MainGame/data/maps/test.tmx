@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="exterior" tilewidth="32" tileheight="32">
+  <image source="../tilesets/adventuretiles_exterior.png" width="480" height="864"/>
+ </tileset>
+ <layer name="Terrain" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJztlEsOgCAMRPG3R3Evwv3vKJsmDWnjNEKiiYu3g3kwfJJzLjUkC7TM13w9HeQZFSZg/gCOjYUgdLgBDl9YwbGH4LE4FrALz/L3wgmuLQqEan/kpPwI5ls65P08zb5zIP2/2UHn1Kon653+Hd90+Cqvl4P/WXMHh/Zv0Xu4ALVGONo=
+  </data>
+ </layer>
+ <layer name="Terrain Detail" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJy11DdPA0EQhuE7UkeGklTQgW1ChwATSnKoyKEjQ4sL+AekntSTetJfILfkDpE74EUiDKtd32HDSI+0c7fesfzd2bJCqylMYwazmEN2kP2DGFIMK3vSbMuKFea5toBFLGEZhWgWfls59s9+BatYwzo2UIFeoTLMGZvYwjZ2sIsGjAmNaApjxqtmTxcmhW70IPCHM9QawSj60G/Y44EXPhR9ZP3C+gZxtuFDSk043C9GCUrdHRdSVaEaNf84owWtaHPYN+5wPw/5KFDWphpw+wVF+VGGcmUt83b77JmqFnWoV9amvN9/lz3s4wCHOMIxTgwz2tGBTmUdLO9TnOEcF7jEFa4NM2QGAdEHy/sWd7jHAx7xhGfDDL/1nYGul7l8Fe+fjQhEIgrRiDG8lzIDXa/LJZ6zEpCIJCQjBamGGTIDXa/LJZ2zMpCJLJf/Kbpn8/OaLpdczvXAC5+LGW/kx08I
+  </data>
+ </layer>
+ <layer name="Terrain Extra" width="25" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBg8II6R9nbkAu1woIM9/kA7lGhsTw3QfEMkOzKAOJMK5uoBsT4QGwBxN5ofyoG4ggp22AKxHRDbU8EsXMAHiH2B2I9EfdZAbEOk2mggjgHiWDTxLAL6vIDYm0R3oYNKEtUbArEREBtTaC8+4ADEjkDsREM7/IE4AIgDaWhHHBDHA3ECDe3ABmgRN9SK93Y8cg4M1In3aXjkkOOdEj8txSIGMws53h0YqJuWAci9FC0=
+  </data>
+ </layer>
+</map>

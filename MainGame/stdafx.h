@@ -15,6 +15,9 @@
 #include <allegro5\allegro_color.h>
 #include <allegro5/allegro_native_dialog.h>
 
+// The *.tmx file loader library
+#include <tmx.h>
+
 // Other useful includes:
 
 #include <string>
