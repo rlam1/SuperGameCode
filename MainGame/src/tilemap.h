@@ -1,53 +1,30 @@
 #pragma once
 #include "stdafx.h"
-#include "tileset.h"
+#include <tmx.h>
 
-#include <sstream>
+void* al_img_loader2(const char* path);
 
-// http://www.cplusplus.com/forum/general/18315/
-// https://en.wikipedia.org/wiki/Rule_of_three_(C%2B%2B_programming)
-
-/* Tilemap System
-Tilemap holds a map of tiles that makes a world.
-Each map is made of a specific tileset which holds each individual
-tile and its position on the tileset.
-
-The tileset calculates its data from the size value tilemap gives, and
-the internal allegro routines to determine width and height. In the future it
-will also check for properties of each tile (see tileset.cpp - LoadData().
-*/
-
-/*
-TODO:
- ... Blank right now
-*/
-
-struct conf {
-    int tSize;
-    int mHeight, mWidth;
-    int special; // special Tile that is not valid that prevents one cell draw.
-    std::string tilesetName;
-    std::string tiles;
-};
-
-class Tilemap {
+class TileMap {
 public:
-    Tilemap(); // For generating a test map.
-    Tilemap(std::string filename);
-    ~Tilemap();
+    TileMap(std::string path);
+    ~TileMap();
 
-    ALLEGRO_BITMAP* getImage();
-    Tile* getTile(int x, int y);
-
+    ALLEGRO_BITMAP* DrawFullMap();
 private:
-    TileSet *set;
-    ALLEGRO_BITMAP *map;
-    int mapHeight, mapWidth, special;
-    int *mapData;
+    ALLEGRO_COLOR int_to_al_color(int color);
 
-    void drawMap();
-    void initTestMap();
-    void zeroConfData();
+    /* Object Drawing routines */
+    void draw_polyline(int **points, int x, int y, int pointsc, ALLEGRO_COLOR color);
+    void draw_polygone(int **points, int x, int y, int pointsc, ALLEGRO_COLOR color);
+    void draw_objects(tmx_object *head, ALLEGRO_COLOR color);
 
-    conf confData;
+    /* Tile Layer drawing routines */
+    int gid_extract_flags(unsigned int gid);
+    int gid_clear_flags(unsigned int gid);
+    void draw_layer(tmx_map *map, tmx_layer *layer);
+
+    /* Internal Variables */
+    const float LINE_THICKNESS = 2.5;
+    tmx_map *map;
+    ALLEGRO_BITMAP *renderSurface;
 };

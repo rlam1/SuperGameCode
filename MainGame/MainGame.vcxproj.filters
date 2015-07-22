@@ -9,9 +9,6 @@
     <ClCompile Include="src\Tool\Sprite.cpp">
       <Filter>src\Tool</Filter>
     </ClCompile>
-    <ClCompile Include="src\tileset.cpp">
-      <Filter>src\Tilemap</Filter>
-    </ClCompile>
     <ClCompile Include="src\tilemap.cpp">
       <Filter>src\Tilemap</Filter>
     </ClCompile>
@@ -28,9 +25,6 @@
       <Filter>src\Tool</Filter>
     </ClInclude>
     <ClInclude Include="src\tilemap.h">
-      <Filter>src\Tilemap</Filter>
-    </ClInclude>
-    <ClInclude Include="src\tileset.h">
       <Filter>src\Tilemap</Filter>
     </ClInclude>
   </ItemGroup>
