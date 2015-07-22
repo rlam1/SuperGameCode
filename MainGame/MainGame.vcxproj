@@ -87,7 +87,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\tilemap.h" />
-    <ClInclude Include="src\tileset.h" />
     <ClInclude Include="src\Tool\Init.h" />
     <ClInclude Include="src\Tool\Sprite.h" />
     <ClInclude Include="src\Tool\Vec.h" />
@@ -96,7 +95,6 @@
   <ItemGroup>
     <ClCompile Include="MainGame.cpp" />
     <ClCompile Include="src\tilemap.cpp" />
-    <ClCompile Include="src\tileset.cpp" />
     <ClCompile Include="src\Tool\Init.cpp" />
     <ClCompile Include="src\Tool\Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">

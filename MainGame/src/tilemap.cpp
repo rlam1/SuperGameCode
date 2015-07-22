@@ -1,153 +1,189 @@
 #include "stdafx.h"
 #include "tilemap.h"
 
-Tilemap::Tilemap(std::string filename)
+void* al_img_loader2(const char* path)
 {
-    ALLEGRO_CONFIG *configFile = nullptr;
-    configFile = al_load_config_file(filename.c_str());
-    if (configFile == nullptr)
+    ALLEGRO_BITMAP *res = NULL;
+    ALLEGRO_PATH   *alpath = NULL;
+
+    if (!(alpath = al_create_path(path))) return NULL;
+
+    al_set_new_bitmap_format(ALLEGRO_PIXEL_FORMAT_ANY_WITH_ALPHA);
+    res = al_load_bitmap(al_path_cstr(alpath, ALLEGRO_NATIVE_PATH_SEP));
+
+    al_destroy_path(alpath);
+
+    return (void*) res;
+}
+
+TileMap::TileMap(std::string path)
+{
+    tmx_img_load_func = al_img_loader2;
+    tmx_img_free_func = (void(*)(void*))al_destroy_bitmap;
+
+    map = tmx_load(path.c_str());
+    if (map == nullptr)
     {
-        std::cerr << "Invalid configuration state! " << this << " will be invalid!" << std::endl;
+        std::cerr << tmx_strerr() << std::endl;
         return;
     }
-
-    zeroConfData(); // put default values in all fields.
-    confData.tSize = std::stoi(al_get_config_value(configFile, NULL, "TILE_SIZE"));
-    confData.mHeight = std::stoi(al_get_config_value(configFile, NULL, "MAP_HEIGHT"));
-    confData.mWidth = std::stoi(al_get_config_value(configFile, NULL, "MAP_WIDTH"));
-    confData.special = std::stoi(al_get_config_value(configFile, NULL, "SPECIAL"));
-    confData.tilesetName = al_get_config_value(configFile, NULL, "TILESET_RES_LOC");
-    confData.tiles = al_get_config_value(configFile, NULL, "TILE_DATA");
-    al_destroy_config(configFile);
-    // Write values to memory now:
-
-    set = new TileSet(confData.tilesetName, confData.tSize);
-    mapHeight = confData.mHeight;
-    mapWidth = confData.mWidth;
-    special = confData.special;
-
-    int length = mapWidth * mapHeight;
-    mapData = new int[length];
-    map = al_create_bitmap(mapWidth * confData.tSize, mapHeight * confData.tSize);
-
-    std::stringstream dataStream(confData.tiles);
-    int value = 0;
-    int i = 0;
-    while (dataStream >> value)
+    
+    int bmpWidth = map->tile_width * map->width;
+    int bmpHeight = map->tile_height * map->height;
+    renderSurface = al_create_bitmap(bmpWidth, bmpHeight);
+    if (renderSurface == nullptr)
     {
-        if (i < length)
-        {
-            mapData[i] = value;
-            i++;
-        }
+        std::cerr << "Could not create a new bitmap resource! " << this << std::endl;
+        tmx_map_free(map);
+        return;
     }
+}
 
-    /*
-    In case the mapData is corrupt, at least fill with a valid value.
-    map data will be corrupted and possibly render game unplayable, but
-    at least it will not crash hard on the player with an invalid pointer
-    ttrying to read other memory regions.
-    */
-    while (i < length)
+TileMap::~TileMap()
+{
+    tmx_map_free(map);
+    al_destroy_bitmap(renderSurface);
+}
+
+ALLEGRO_BITMAP* TileMap::DrawFullMap()
+{
+    tmx_layer *layers = map->ly_head;
+
+    if (map->orient != O_ORT)
     {
-        mapData[i] = special;
-        i++;
-    }
-
-    drawMap();
-}
-
-Tilemap::Tilemap()
-{
-    int tileSize = 16;
-    set = new TileSet("bricks", tileSize);
-
-    mapHeight = 5;
-    mapWidth = 5;
-
-    int length = mapHeight * mapWidth;
-    mapData = new int[length];
-    map = al_create_bitmap(mapWidth*tileSize, mapHeight*tileSize);
-
-    initTestMap();
-    drawMap();
-}
-
-Tilemap::~Tilemap()
-{
-    delete set;
-    delete [] mapData;
-    al_destroy_bitmap(map);
-}
-
-ALLEGRO_BITMAP* Tilemap::getImage()
-{
-    return map;
-}
-
-Tile* Tilemap::getTile(int x, int y)
-{
-    bool xinrange = (x >= 0) || (x < mapWidth);
-    bool yinrange = (y >= 0) || (x < mapHeight);
-
-    if (xinrange && yinrange)
-    {
-        int id = mapData[(y*mapHeight) + x];
-        return &set->tileset[id];
-    } else
-    {
+        std::cerr << "only orthogonal orient currently supported in this example!" << std::endl;
         return nullptr;
     }
+
+    al_set_target_bitmap(renderSurface);
+    al_clear_to_color(int_to_al_color(map->backgroundcolor));
+
+    while (layers)
+    {
+        if (layers->visible)
+        {
+            if (layers->type == L_OBJGR)
+            {
+                draw_objects(layers->content.head, int_to_al_color(layers->color));
+            } else if (layers->type == L_IMAGE)
+            {
+                if (layers->opacity < 1.)
+                {
+                    float op = layers->opacity;
+                    al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
+                }
+                al_draw_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, 0, 0, 0);
+            } else if (layers->type == L_LAYER)
+            {
+                draw_layer(map, layers);
+            }
+        }
+        layers = layers->next;
+    }
+
+    al_set_target_backbuffer(al_get_current_display());
+
+    return renderSurface;
 }
 
-void Tilemap::drawMap()
+ALLEGRO_COLOR TileMap::int_to_al_color(int color)
 {
-    al_set_target_bitmap(map);
-    al_hold_bitmap_drawing(true);
+    unsigned char r, g, b;
 
-    int length = mapHeight * mapWidth;
-    int size = set->tileSize;
-    int xcoord = 0, ycoord = 0, i = 0;
+    r = (color >> 16) & 0xFF;
+    g = (color >> 8) & 0xFF;
+    b = (color) & 0xFF;
 
-    for (int y = 0; y < mapHeight * size; y += size)
+    return al_map_rgb(r, g, b);
+}
+
+void TileMap::draw_polyline(int **points, int x, int y, int pointsC, ALLEGRO_COLOR color)
+{
+    int i;
+    for (i = 1; i<pointsC; i++)
     {
-        for (int x = 0; x < mapWidth * size; x += size)
-        {
-            if (i < length) // dont try to read beyond the array
-            {
-               int tileID = mapData[i];
-               // if tileID != special
-               if (tileID != special)
-               {
-                   int sx = set->tileset[tileID].gfxX;
-                   int sy = set->tileset[tileID].gfxY;
+        al_draw_line(x + points[i - 1][0], y + points[i - 1][1], x + points[i][0], y + points[i][1], color, LINE_THICKNESS);
+    }
+}
 
-                   al_draw_bitmap_region(set->graphic, sx, sy, size, size, x, y, NULL);
-               }
-               i++;
+void TileMap::draw_polygone(int **points, int x, int y, int pointsC, ALLEGRO_COLOR color)
+{
+    draw_polyline(points, x, y, pointsC, color);
+    if (pointsC > 2)
+    {
+        al_draw_line(x + points[0][0], y + points[0][1], x + points[pointsC - 1][0], y + points[pointsC - 1][1], color, LINE_THICKNESS);
+    }
+}
+
+void TileMap::draw_objects(tmx_object *head, ALLEGRO_COLOR color)
+{
+    while (head)
+    {
+        if (head->visible)
+        {
+            if (head->shape == S_SQUARE)
+            {
+                al_draw_rectangle(head->x, head->y, head->x + head->width, head->y + head->height, color, LINE_THICKNESS);
+            } else if (head->shape == S_POLYGON)
+            {
+                draw_polygone(head->points, head->x, head->y, head->points_len, color);
+            } else if (head->shape == S_POLYLINE)
+            {
+                draw_polyline(head->points, head->x, head->y, head->points_len, color);
+            } else if (head->shape == S_ELLIPSE)
+            {
+                al_draw_ellipse(head->x + head->width / 2.0, head->y + head->height / 2.0, head->width / 2.0, head->height / 2.0, color, LINE_THICKNESS);
+            }
+        }
+
+        head = head->next;
+    }
+}
+
+int TileMap::gid_extract_flags(unsigned int gid)
+{
+    int res = 0;
+
+    if (gid & TMX_FLIPPED_HORIZONTALLY) res |= ALLEGRO_FLIP_HORIZONTAL;
+    if (gid & TMX_FLIPPED_VERTICALLY)   res |= ALLEGRO_FLIP_VERTICAL;
+    /* FIXME allegro has no diagonal flip */
+    return res;
+}
+
+int TileMap::gid_clear_flags(unsigned int gid)
+{
+    return gid & TMX_FLIP_BITS_REMOVAL;
+}
+
+void TileMap::draw_layer(tmx_map *map, tmx_layer *layer)
+{
+    unsigned long i, j;
+    unsigned int x, y, w, h, flags;
+    float op;
+
+    tmx_tileset *ts;
+    ALLEGRO_BITMAP *tileset; /* Owned by the tmx library */
+
+    op = layer->opacity;
+
+    al_hold_bitmap_drawing(true);
+    for (i = 0; i < map->height; i++)
+    {
+        for (j = 0; j < map->width; j++)
+        {
+            ts = tmx_get_tileset(map, layer->content.gids[(i*map->width) + j], &x, &y);
+            if (ts)
+            {
+                w = ts->tile_width;
+                h = ts->tile_height;
+
+                tileset = (ALLEGRO_BITMAP*) ts->image->resource_image;
+                flags = gid_extract_flags(layer->content.gids[(i*map->width) + j]);
+
+                al_draw_tinted_bitmap_region(tileset, al_map_rgba_f(op, op, op, op),
+                    x, y, w, h, j*ts->tile_width, i*ts->tile_height, flags);
             }
         }
     }
-
     al_hold_bitmap_drawing(false);
-    al_set_target_backbuffer(al_get_current_display());
-}
-
-void Tilemap::initTestMap()
-{
-    int length = mapHeight * mapWidth;
-
-    for (int i = 0; i < length; i++)
-    {
-      mapData[i] = 0;
-    }
-
-    mapData[6] = 2;
-    mapData[12] = 2;
-    mapData[18] = 2;
-}
-
-void Tilemap::zeroConfData()
-{
-    confData = { 0, 0, 0, 0, "", "" };
 }
