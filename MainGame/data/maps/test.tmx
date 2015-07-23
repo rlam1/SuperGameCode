@@ -5,17 +5,17 @@
  </tileset>
  <layer name="Terrain" width="25" height="19">
   <data encoding="base64" compression="zlib">
-   eJztlEsOgCAMRPG3R3Evwv3vKJsmDWnjNEKiiYu3g3kwfJJzLjUkC7TM13w9HeQZFSZg/gCOjYUgdLgBDl9YwbGH4LE4FrALz/L3wgmuLQqEan/kpPwI5ls65P08zb5zIP2/2UHn1Kon653+Hd90+Cqvl4P/WXMHh/Zv0Xu4ALVGONo=
+   eJztlDsOgCAQRFfFHsVehPvfUQo22RCIQwSjicXrYB4MH0dEriGLwEda5qc84WDPWGAC5g/gWBswYl/MCjh07B0Zu2c8NY4Z7EKL/C1wgGuzGUyyP3aqmG/B/JoOZT93s68cSP9vdvA5teqp9k7/jm86dJLXyyH/LNXBUfq3+D2cpcA4hQ==
   </data>
  </layer>
- <layer name="Terrain Detail" width="25" height="19">
+ <layer name="Buildings" width="25" height="19">
   <data encoding="base64" compression="zlib">
-   eJy11DdPA0EQhuE7UkeGklTQgW1ChwATSnKoyKEjQ4sL+AekntSTetJfILfkDpE74EUiDKtd32HDSI+0c7fesfzd2bJCqylMYwazmEN2kP2DGFIMK3vSbMuKFea5toBFLGEZhWgWfls59s9+BatYwzo2UIFeoTLMGZvYwjZ2sIsGjAmNaApjxqtmTxcmhW70IPCHM9QawSj60G/Y44EXPhR9ZP3C+gZxtuFDSk043C9GCUrdHRdSVaEaNf84owWtaHPYN+5wPw/5KFDWphpw+wVF+VGGcmUt83b77JmqFnWoV9amvN9/lz3s4wCHOMIxTgwz2tGBTmUdLO9TnOEcF7jEFa4NM2QGAdEHy/sWd7jHAx7xhGfDDL/1nYGul7l8Fe+fjQhEIgrRiDG8lzIDXa/LJZ6zEpCIJCQjBamGGTIDXa/LJZ2zMpCJLJf/Kbpn8/OaLpdczvXAC5+LGW/kx08I
+   eJy11LdSAlEYhuGzps6spamwU8DQOSoqpTlUirnGdAV6B6be1KvYm25BMLTmzjGgnfru6DDH5bAcWPlmnhlYzv4fO8yPEKllGStYxRrWUW1zPoAZi1nLmTJDiFzJBtc2sYVt7KARQ5JkU2P8fb+LPewjiAN0YFric9hxiCMc4wSn6MeCZACDDjq+FGcmsCSZxNQ/d1gzh/kEZ+pQjwY0/f7Wn7x+Qp5he2s0iwk+96IN7XrjUkoPetGXxo5RjGHc4RwX3PA4/UI2aUYLWtPY3YkudGt2mzlDCGGc4wKXuIrTMYwR+DW7zVzjBre4wz0e8Gj7ND+R9yFet5lnvOAVb4jgHR8aHV4Ruw9ybzTsn4EMZCIL2cjR2EvVPqh685lVgEIUoRglKNXoUO2DqrecWRWoRJXmf0qyvbXMdcENj0bHN+y2Q+Y=
   </data>
  </layer>
- <layer name="Terrain Extra" width="25" height="19">
+ <layer name="Decoration" width="25" height="19">
   <data encoding="base64" compression="zlib">
-   eJxjYBg8II6R9nbkAu1woIM9/kA7lGhsTw3QfEMkOzKAOJMK5uoBsT4QGwBxN5ofyoG4ggp22AKxHRDbU8EsXMAHiH2B2I9EfdZAbEOk2mggjgHiWDTxLAL6vIDYm0R3oYNKEtUbArEREBtTaC8+4ADEjkDsREM7/IE4AIgDaWhHHBDHA3ECDe3ABmgRN9SK93Y8cg4M1In3aXjkkOOdEj8txSIGMws53h0YqJuWAci9FC0=
+   eJxjYKA9qCZSXRwjTZ0BBrlAOxzoYI8/0A4lGttTAzTfEMmODCDOhLJz8ejDJ4cOutH8UA7EFUToywbiHBLsGUzAGohtcMjVEGlGFgF5LyD2xmF+LZF2VBKpbrACUtLhcATElouDBbTjEKdmPE6jolm4wFI62IENAAAELA0k
   </data>
  </layer>
 </map>
