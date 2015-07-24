@@ -37,8 +37,17 @@ TileMap::TileMap(std::string path)
         tmx_map_free(map);
         return;
     }
+    renderSurface = al_clone_bitmap(fullMap);
 
     renderFullMap();
+
+    int arrLength = map->tile_height * map->tile_width;
+    walkTable = new int[arrLength];
+    for (int i = 0; i < arrLength; i++)
+    {
+        walkTable[i] = 1;
+    }
+    readWalkProperty(arrLength);
 }
 
 TileMap::~TileMap()
@@ -46,11 +55,24 @@ TileMap::~TileMap()
     tmx_map_free(map);
     al_destroy_bitmap(renderSurface);
     al_destroy_bitmap(fullMap);
+    delete [] walkTable;
 }
 
 ALLEGRO_BITMAP* TileMap::GetFullMap()
 {
     return fullMap;
+}
+
+bool TileMap::CanWalktoTileAt(int x, int y)
+{
+    unsigned int range = x * y;
+    if (range > ((map->tile_height * map->tile_width) - 1))
+    {
+        return false;
+    }
+
+    int value = walkTable[(y * map->tile_height) + x];
+    return value > 0 ? true : false;
 }
 
 ALLEGRO_COLOR TileMap::int_to_al_color(int color)
@@ -216,4 +238,58 @@ void TileMap::renderFullMap()
     }
 
     al_set_target_backbuffer(al_get_current_display());
+}
+
+tmx_layer *TileMap::getLayerByName(std::string name)
+{
+    std::string layerName = map->ly_head->name;
+    tmx_layer *currLayer = map->ly_head;
+
+    while (currLayer)
+    {
+        if (layerName == name)
+        {
+            return map->ly_head;
+        } else
+        {
+            currLayer = currLayer->next;
+        }
+    }
+
+    std::cerr << "Error: Layer " << name << " not found." << std::endl;
+    return nullptr;
+}
+
+void TileMap::readWalkProperty(int arrLength)
+{
+    tmx_tile *tile = nullptr;
+    tmx_layer *layer = map->ly_head;
+    int counter = 0;
+
+    while (layer)
+    {
+        if (layer->type == L_LAYER)
+        {
+            while (counter < arrLength)
+            {
+                tile = tmx_get_tile(map, layer->content.gids[counter]);
+                tmx_property *props = tile->properties;
+                while (props)
+                {
+                    std::string name = props->name;
+                    if (name == "canWalk")
+                    {
+                        walkTable[counter] |= atoi(props->value);
+                        continue;
+                    }
+                    props = props->next;
+                }
+
+                counter++;
+            }
+        } 
+
+        layer = layer->next;
+        counter = 0;
+    }
 }
