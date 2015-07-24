@@ -1,21 +1,986 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="exterior" tilewidth="32" tileheight="32">
   <image source="../tilesets/adventuretiles_exterior.png" width="480" height="864"/>
+  <tile id="14">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="66">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="72">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="81">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="86">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="87">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="91">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="94">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="96">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="97">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="98">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="99">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="100">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="101">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="102">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="105">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="106">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="107">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="109">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="110">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="111">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="112">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="113">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="114">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="115">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="116">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="117">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="118">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="120">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="128">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="129">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="130">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="131">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="149">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="150">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="151">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="152">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="153">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="154">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="155">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="156">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="157">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="158">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="159">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="160">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="161">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="162">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="165">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="166">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="167">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="168">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="169">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="170">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="172">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="173">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="174">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="175">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="176">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="177">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="178">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="180">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="181">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="183">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="184">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="186">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="187">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="188">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="189">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="190">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="192">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="193">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="218">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="219">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="220">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="221">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="225">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="226">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="227">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="228">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="229">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="230">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="231">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="233">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="234">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="235">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="236">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="240">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="241">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="242">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="243">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="244">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="245">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="246">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="248">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="249">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="250">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="251">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="255">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="256">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="257">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="258">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="261">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="263">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="264">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="265">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="266">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="270">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="271">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="272">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="273">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="278">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="279">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="280">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="281">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="282">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="285">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="286">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="287">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="288">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="289">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="293">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="295">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="296">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="297">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="300">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="301">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="302">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="303">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="304">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="319">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="330">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="331">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="332">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="334">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="335">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="336">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="337">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="338">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="345">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="346">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="347">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="349">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="350">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="351">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="352">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="353">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="354">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="355">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="356">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="357">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="358">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="359">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="360">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="361">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="362">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="364">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="365">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="366">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="367">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="368">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="369">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="370">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="371">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="372">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="373">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="374">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="375">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="376">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="377">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="379">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="380">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="381">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="382">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="383">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="384">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="385">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="386">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="387">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="388">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="389">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="390">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="391">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="392">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="394">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="395">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="397">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="398">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
  </tileset>
- <layer name="Terrain" width="25" height="19">
+ <layer name="Terrain" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlDsOgCAQRFfFHsVehPvfUQo22RCIQwSjicXrYB4MH0dEriGLwEda5qc84WDPWGAC5g/gWBswYl/MCjh07B0Zu2c8NY4Z7EKL/C1wgGuzGUyyP3aqmG/B/JoOZT93s68cSP9vdvA5teqp9k7/jm86dJLXyyH/LNXBUfq3+D2cpcA4hQ==
+   eJztl8EOwjAIhuvU+9x2t+79H9KZSEIIxL8CdUYP32Xp1q8tMLqWUtZALk4iXTJce/q94yjfHwyOwNwHcKxn3+rGrIyfAL+xYayHq+LY4nd2nAEKzfVg2biB66oKtNaIfaW1np7frKBbr3PnZ+r1yvSLjPFv8bPyBoFyq5aYmNP8PGTWLPJbip7fFrzG9fBrnYPv+979KHb36hfZz4zCZY9+vJbQv8jyI49BQO/x3Irwo//wLL5t1Syk/mTkB3qur/qKT/sh8ff3+10/uvdwkF7d8kPvUaiflv8TMJ/lh+4r6sfzn3Jeq7+yv2t9LuH1GY2RiF4us/+zamk2kf1yJnfiNYMK
   </data>
  </layer>
- <layer name="Buildings" width="25" height="19">
+ <layer name="Buildings" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJy11LdSAlEYhuGzps6spamwU8DQOSoqpTlUirnGdAV6B6be1KvYm25BMLTmzjGgnfru6DDH5bAcWPlmnhlYzv4fO8yPEKllGStYxRrWUW1zPoAZi1nLmTJDiFzJBtc2sYVt7KARQ5JkU2P8fb+LPewjiAN0YFric9hxiCMc4wSn6MeCZACDDjq+FGcmsCSZxNQ/d1gzh/kEZ+pQjwY0/f7Wn7x+Qp5he2s0iwk+96IN7XrjUkoPetGXxo5RjGHc4RwX3PA4/UI2aUYLWtPY3YkudGt2mzlDCGGc4wKXuIrTMYwR+DW7zVzjBre4wz0e8Gj7ND+R9yFet5lnvOAVb4jgHR8aHV4Ruw9ybzTsn4EMZCIL2cjR2EvVPqh685lVgEIUoRglKNXoUO2DqrecWRWoRJXmf0qyvbXMdcENj0bHN+y2Q+Y=
+   eJy91kVsVEEcx/G3WHAnWLADDm2RE9B2kQOEFq0AbbEaFqDdFj1V0CDVU3E44XLC5YwleLAEDxo8ON9Nts3s8N482bf8k0+y3c785v/ezs5bTXNWpShDOSpQie4Os8Tqq/PeQiySLJbGdPJoWhPBDt7biV3YjT0YjESBkxricF4/T/Dfh3AYR3AUxzASGYJRNtcYjTEu9XcGZ3EO53EBk+ATTEaCxfwkJCPLpf7+6IyZhULBbKRrwffUz9+zuA/8vWUGegtnf3LlIFcLvqfVPfsCvWYGXuc56G8ABmIQhga+F795/Q5NPcqpNVWg6d9Tn6T6/mXb6M+L4RhhY45Z5QR6lPvz3798m1njMQETLYyNQCSiLIyV76lfEYpt9jcdMzDTwthoxCDW5hpmZee6VRWHeIwLuaPgMrpuu32nIBVpBv8X8y7iEi7jCq4qco2uW/V5XcN13MBN3MJt3FGsI+bdxT3cxwM8VMwzum7V5/UIj/EET/EMz/FCsY6Y9xKv8Bpv8FYxTyzxvFN9Xu/xAR/xCZ/xBV8V2WLeN3zHD/zEL4v9ebV/zzux55ribPagFmqjDuqins6ZrbeP6zOuARqiERpbPOv1zju9npuR1xwt0BKt0BptdNbR28dtGdcO7dEBHS32p3fe6fXcmbwu6IpuJtl6+7gHc3qiF3qjj8X+rPbcn7wIRCLKY7AHAmV27vyP8mruP6eNKtbBvbbznA6lhtFbNGJs9mj2nE4gLxFJSMYUTBXWsPqsGsucOMSbnBMbsBGbsBkl0lh5P6aTl4FMZCEbc4Q1VM8qMWsac1KQijSpRzGjCluwFduwXcr0asH7MZcsH/KQjyVYKuSrnlVi1lzmzMN8LJD6EzP2Yh/24wAOSpnyfiwgqxBFKMYqrBbyVd9xMWsZc5ZjBVZK/YkZx3ECJ3EKp6VMeT+WkFWKMpSjApUOzuQ1zFmLdVgfwpkZarn1mzRcFa7f4m5VuH6Lu1XiXv8LmpawlQ==
   </data>
  </layer>
- <layer name="Decoration" width="25" height="19">
+ <layer name="Decoration" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJxjYKA9qCZSXRwjTZ0BBrlAOxzoYI8/0A4lGttTAzTfEMmODCDOhLJz8ejDJ4cOutH8UA7EFUToywbiHBLsGUzAGohtcMjVEGlGFgF5LyD2xmF+LZF2VBKpbrACUtLhcATElouDBbTjEKdmPE6jolm4wFI62IENAAAELA0k
+   eJzVljEOwjAMRcMF4AQwMMPADAMzDNyAGQqdISLMDOzcgHviSK1qRW0TJ04anmTRKsX+xcnHQuTNw/G54yiqjGBK0LfNXOMB9M0z1qhA2wrpO0Gcq+uSsU6BgpL3bfx2N4g7m6oGieICcY1QI3fWEBt0/6wiFOX4XGFZ30Hs0X2t7UVW1KCE+ztKQl6c80P43hB8I+fn9JEhCDkD2E81tj2eEj0HmH4q0dq/4dsnm3/45OXc833+MWGs40uff8yIuVKfD6o+yn8AB0vLuukvvpTCbc92zUbK+KzhmNdqXa5zRE5w9ScWsebpLsYJa2HM2VbT5jXTBFraMGdbTZvXLBhqxewBxxkdqgeucPQgB7r8/gdDFyQL
   </data>
  </layer>
 </map>
