@@ -30,60 +30,27 @@ TileMap::TileMap(std::string path)
     
     int bmpWidth = map->tile_width * map->width;
     int bmpHeight = map->tile_height * map->height;
-    renderSurface = al_create_bitmap(bmpWidth, bmpHeight);
-    if (renderSurface == nullptr)
+    fullMap = al_create_bitmap(bmpWidth, bmpHeight);
+    if (fullMap == nullptr)
     {
         std::cerr << "Could not create a new bitmap resource! " << this << std::endl;
         tmx_map_free(map);
         return;
     }
+
+    renderFullMap();
 }
 
 TileMap::~TileMap()
 {
     tmx_map_free(map);
     al_destroy_bitmap(renderSurface);
+    al_destroy_bitmap(fullMap);
 }
 
-ALLEGRO_BITMAP* TileMap::DrawFullMap()
+ALLEGRO_BITMAP* TileMap::GetFullMap()
 {
-    tmx_layer *layers = map->ly_head;
-
-    if (map->orient != O_ORT)
-    {
-        std::cerr << "only orthogonal orient currently supported in this example!" << std::endl;
-        return nullptr;
-    }
-
-    al_set_target_bitmap(renderSurface);
-    al_clear_to_color(int_to_al_color(map->backgroundcolor));
-
-    while (layers)
-    {
-        if (layers->visible)
-        {
-            if (layers->type == L_OBJGR)
-            {
-                draw_objects(layers->content.head, int_to_al_color(layers->color));
-            } else if (layers->type == L_IMAGE)
-            {
-                if (layers->opacity < 1.)
-                {
-                    float op = layers->opacity;
-                    al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
-                }
-                al_draw_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, 0, 0, 0);
-            } else if (layers->type == L_LAYER)
-            {
-                draw_layer(map, layers);
-            }
-        }
-        layers = layers->next;
-    }
-
-    al_set_target_backbuffer(al_get_current_display());
-
-    return renderSurface;
+    return fullMap;
 }
 
 ALLEGRO_COLOR TileMap::int_to_al_color(int color)
@@ -97,7 +64,7 @@ ALLEGRO_COLOR TileMap::int_to_al_color(int color)
     return al_map_rgb(r, g, b);
 }
 
-void TileMap::draw_polyline(int **points, int x, int y, int pointsC, ALLEGRO_COLOR color)
+void TileMap::draw_polyline(double **points, double x, double y, int pointsC, ALLEGRO_COLOR color)
 {
     int i;
     for (i = 1; i<pointsC; i++)
@@ -106,7 +73,7 @@ void TileMap::draw_polyline(int **points, int x, int y, int pointsC, ALLEGRO_COL
     }
 }
 
-void TileMap::draw_polygone(int **points, int x, int y, int pointsC, ALLEGRO_COLOR color)
+void TileMap::draw_polygone(double **points, double x, double y, int pointsC, ALLEGRO_COLOR color)
 {
     draw_polyline(points, x, y, pointsC, color);
     if (pointsC > 2)
@@ -121,18 +88,37 @@ void TileMap::draw_objects(tmx_object *head, ALLEGRO_COLOR color)
     {
         if (head->visible)
         {
-            if (head->shape == S_SQUARE)
+            //if (head->shape == S_SQUARE)
+            //{
+            //    al_draw_rectangle(head->x, head->y, head->x + head->width, head->y + head->height, color, LINE_THICKNESS);
+            //} else if (head->shape == S_POLYGON)
+            //{
+            //    draw_polygone(head->points, head->x, head->y, head->points_len, color);
+            //} else if (head->shape == S_POLYLINE)
+            //{
+            //    draw_polyline(head->points, head->x, head->y, head->points_len, color);
+            //} else if (head->shape == S_ELLIPSE)
+            //{
+            //    al_draw_ellipse(head->x + head->width / 2.0, head->y + head->height / 2.0, head->width / 2.0, head->height / 2.0, color, LINE_THICKNESS);
+            //}
+
+            switch (head->shape)
             {
-                al_draw_rectangle(head->x, head->y, head->x + head->width, head->y + head->height, color, LINE_THICKNESS);
-            } else if (head->shape == S_POLYGON)
-            {
-                draw_polygone(head->points, head->x, head->y, head->points_len, color);
-            } else if (head->shape == S_POLYLINE)
-            {
-                draw_polyline(head->points, head->x, head->y, head->points_len, color);
-            } else if (head->shape == S_ELLIPSE)
-            {
-                al_draw_ellipse(head->x + head->width / 2.0, head->y + head->height / 2.0, head->width / 2.0, head->height / 2.0, color, LINE_THICKNESS);
+                case S_SQUARE:
+                    al_draw_rectangle(head->x, head->y, head->x + head->width, head->y + head->height, color, LINE_THICKNESS);
+                    break;
+                case S_POLYGON:
+                    draw_polygone(head->points, head->x, head->y, head->points_len, color);
+                    break;
+                case S_POLYLINE:
+                    draw_polyline(head->points, head->x, head->y, head->points_len, color);
+                    break;
+                case S_ELLIPSE:
+                    al_draw_ellipse(head->x + head->width / 2.0, head->y + head->height / 2.0, head->width / 2.0, head->height / 2.0, color, LINE_THICKNESS);
+                    break;
+                default:
+                    std::cerr << "Warning: An unknown object type was found: " << head->shape << std::endl;
+                    break;
             }
         }
 
@@ -157,9 +143,9 @@ int TileMap::gid_clear_flags(unsigned int gid)
 
 void TileMap::draw_layer(tmx_map *map, tmx_layer *layer)
 {
-    unsigned long i, j;
-    unsigned int x, y, w, h, flags;
-    float op;
+    unsigned long x, y; // The map coordinates
+    unsigned int sx, sy, sw, sh, flags; // Individual tile coordinates
+    float op; // Tile opacity value
 
     tmx_tileset *ts;
     ALLEGRO_BITMAP *tileset; /* Owned by the tmx library */
@@ -167,23 +153,67 @@ void TileMap::draw_layer(tmx_map *map, tmx_layer *layer)
     op = layer->opacity;
 
     al_hold_bitmap_drawing(true);
-    for (i = 0; i < map->height; i++)
+    for (y = 0; y < map->height; y++)
     {
-        for (j = 0; j < map->width; j++)
+        for (x = 0; x < map->width; x++)
         {
-            ts = tmx_get_tileset(map, layer->content.gids[(i*map->width) + j], &x, &y);
+            ts = tmx_get_tileset(map, layer->content.gids[(y*map->width) + x], &sx, &sy);
             if (ts)
             {
-                w = ts->tile_width;
-                h = ts->tile_height;
+                sw = ts->tile_width;
+                sh = ts->tile_height;
 
                 tileset = (ALLEGRO_BITMAP*) ts->image->resource_image;
-                flags = gid_extract_flags(layer->content.gids[(i*map->width) + j]);
+                flags = gid_extract_flags(layer->content.gids[(y*map->width) + x]);
 
                 al_draw_tinted_bitmap_region(tileset, al_map_rgba_f(op, op, op, op),
-                    x, y, w, h, j*ts->tile_width, i*ts->tile_height, flags);
+                    sx, sy, sw, sh, x*ts->tile_width, y*ts->tile_height, flags);
             }
         }
     }
     al_hold_bitmap_drawing(false);
+}
+
+void TileMap::renderFullMap()
+{
+    tmx_layer *layers = map->ly_head;
+
+    if (map->orient != O_ORT)
+    {
+        std::cerr << "only orthogonal orient currently supported in this example!" << std::endl;
+        return;
+    }
+
+    al_set_target_bitmap(fullMap);
+    al_clear_to_color(int_to_al_color(map->backgroundcolor));
+
+    while (layers)
+    {
+        if (layers->visible)
+        {
+            switch (layers->type)
+            {
+                case L_OBJGR:
+                    draw_objects(layers->content.head, int_to_al_color(layers->color));
+                    break;
+                case L_IMAGE:
+                    if (layers->opacity < 1.)
+                    {
+                        float op = layers->opacity;
+                        al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
+                    }
+                    al_draw_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, 0, 0, 0);
+                    break;
+                case L_LAYER:
+                    draw_layer(map, layers);
+                    break;
+                default:
+                    std::cerr << "Warning: I just dropped an unknown layer: " << layers->name << std::endl;
+                    break;
+            }
+        }
+        layers = layers->next;
+    }
+
+    al_set_target_backbuffer(al_get_current_display());
 }
