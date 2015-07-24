@@ -68,6 +68,7 @@ bool TileMap::CanWalktoTileAt(int x, int y)
     unsigned int range = x * y;
     if (range > ((map->tile_height * map->tile_width) - 1))
     {
+        std::cerr << "Warning: Tile outside range: (" << x << "," << y << std::endl;
         return false;
     }
 
@@ -272,7 +273,7 @@ void TileMap::readWalkProperty(int arrLength)
         {
             while (counter < arrLength)
             {
-                tile = tmx_get_tile(map, layer->content.gids[counter]);
+                tile = tmx_get_tile(map, layer->content.gids[counter]); //TODO: Find why this fails
                 tmx_property *props = tile->properties;
                 while (props)
                 {
