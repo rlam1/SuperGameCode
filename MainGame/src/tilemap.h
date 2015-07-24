@@ -9,13 +9,13 @@ public:
     TileMap(std::string path);
     ~TileMap();
 
-    ALLEGRO_BITMAP* DrawFullMap();
+    ALLEGRO_BITMAP* GetFullMap();
 private:
     ALLEGRO_COLOR int_to_al_color(int color);
 
     /* Object Drawing routines */
-    void draw_polyline(int **points, int x, int y, int pointsc, ALLEGRO_COLOR color);
-    void draw_polygone(int **points, int x, int y, int pointsc, ALLEGRO_COLOR color);
+    void draw_polyline(double **points, double x, double y, int pointsc, ALLEGRO_COLOR color);
+    void draw_polygone(double **points, double x, double y, int pointsc, ALLEGRO_COLOR color);
     void draw_objects(tmx_object *head, ALLEGRO_COLOR color);
 
     /* Tile Layer drawing routines */
@@ -23,8 +23,12 @@ private:
     int gid_clear_flags(unsigned int gid);
     void draw_layer(tmx_map *map, tmx_layer *layer);
 
+    /* Map Rendering functions */
+    void renderFullMap();
+
     /* Internal Variables */
     const float LINE_THICKNESS = 2.5;
     tmx_map *map;
-    ALLEGRO_BITMAP *renderSurface;
+    ALLEGRO_BITMAP *renderSurface; // A scratchpath for rendering specific parts of the map
+    ALLEGRO_BITMAP *fullMap;       // Prerendered full map;
 };
