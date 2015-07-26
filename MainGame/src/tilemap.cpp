@@ -41,7 +41,7 @@ TileMap::TileMap(std::string path)
 
     renderFullMap();
 
-    int arrLength = map->tile_height * map->tile_width;
+    int arrLength = map->height * map->width;
     walkTable = new int[arrLength];
     for (int i = 0; i < arrLength; i++)
     {
@@ -66,9 +66,9 @@ ALLEGRO_BITMAP* TileMap::GetFullMap()
 bool TileMap::CanWalktoTileAt(int x, int y)
 {
     unsigned int range = x * y;
-    if (range > ((map->tile_height * map->tile_width) - 1))
+    if (range > ((map->height * map->width) - 1))
     {
-        std::cerr << "Warning: Tile outside range: (" << x << "," << y << std::endl;
+        std::cerr << "Warning: Tile outside range: (" << x << "," << y << ")" <<std::endl;
         return false;
     }
 
@@ -111,20 +111,6 @@ void TileMap::draw_objects(tmx_object *head, ALLEGRO_COLOR color)
     {
         if (head->visible)
         {
-            //if (head->shape == S_SQUARE)
-            //{
-            //    al_draw_rectangle(head->x, head->y, head->x + head->width, head->y + head->height, color, LINE_THICKNESS);
-            //} else if (head->shape == S_POLYGON)
-            //{
-            //    draw_polygone(head->points, head->x, head->y, head->points_len, color);
-            //} else if (head->shape == S_POLYLINE)
-            //{
-            //    draw_polyline(head->points, head->x, head->y, head->points_len, color);
-            //} else if (head->shape == S_ELLIPSE)
-            //{
-            //    al_draw_ellipse(head->x + head->width / 2.0, head->y + head->height / 2.0, head->width / 2.0, head->height / 2.0, color, LINE_THICKNESS);
-            //}
-
             switch (head->shape)
             {
                 case S_SQUARE:
@@ -263,34 +249,32 @@ tmx_layer *TileMap::getLayerByName(std::string name)
 
 void TileMap::readWalkProperty(int arrLength)
 {
-    tmx_tile *tile = nullptr;
     tmx_layer *layer = map->ly_head;
-    int counter = 0;
 
     while (layer)
     {
         if (layer->type == L_LAYER)
         {
-            while (counter < arrLength)
+            for (int i = 0; i < arrLength; i++)
             {
-                tile = tmx_get_tile(map, layer->content.gids[counter]); //TODO: Find why this fails
-                tmx_property *props = tile->properties;
-                while (props)
-                {
-                    std::string name = props->name;
-                    if (name == "canWalk")
-                    {
-                        walkTable[counter] |= atoi(props->value);
-                        continue;
-                    }
-                    props = props->next;
-                }
+                tmx_tile *tile = tmx_get_tile(map, layer->content.gids[i]);
 
-                counter++;
+                if (tile != nullptr)
+                {
+                    tmx_property *props = tile->properties;
+                    while (props)
+                    {
+                        std::string name = props->name;
+                        if (name == "canWalk")
+                        {
+                            walkTable[i] = atoi(props->value);
+                        }
+                        props = props->next;
+                    }
+                }
             }
         } 
 
         layer = layer->next;
-        counter = 0;
     }
 }
