@@ -72,7 +72,7 @@ bool TileMap::CanWalktoTileAt(int x, int y)
         return false;
     }
 
-    int value = walkTable[(y * map->tile_height) + x];
+    int value = walkTable[(y * map->height) + x];
     return value > 0 ? true : false;
 }
 
