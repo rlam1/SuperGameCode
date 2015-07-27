@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "tilemap.h"
 
+/*
+TODO:
+
+- Make the drawing calls here avoid using a buffer, consider drawing to the screen directly.
+*/
+
 void* al_img_loader2(const char* path)
 {
     ALLEGRO_BITMAP *res = NULL;
@@ -45,7 +51,7 @@ TileMap::TileMap(std::string path)
     walkTable = new int[arrLength];
     for (int i = 0; i < arrLength; i++)
     {
-        walkTable[i] = 1;
+        walkTable[i] = 1; // Default to all spaces walkable in the tilemap
     }
     readWalkProperty(arrLength);
 }
@@ -63,7 +69,7 @@ ALLEGRO_BITMAP* TileMap::GetFullMap()
     return fullMap;
 }
 
-/* TO DO:
+/* TO DO for GetLayerMap:
    - Refactor code copied from DrawFUllMap on both functions
    - Find a way to avoid so much repeated functions on both cases (layer == null and layer = something)
 */
