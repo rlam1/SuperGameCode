@@ -63,10 +63,6 @@ void AppBody()
     bool redraw = false;
 
     TileMap map("data/maps/test.tmx");
-    std::cout << "walk on 0,0? " << map.CanWalktoTileAt(0, 0) << std::endl;
-    std::cout << "walk on 1,1? " << map.CanWalktoTileAt(1, 1) << std::endl;
-    std::cout << "walk on 39,29? " << map.CanWalktoTileAt(39, 29) << std::endl;
-    std::cout << "walk on 40,30? " << map.CanWalktoTileAt(40, 30) << std::endl;
 
     int x_offset = 0, y_offset = 0;
     int x_delta, y_delta;
@@ -140,7 +136,14 @@ void AppBody()
         {
             redraw = false;
             al_clear_to_color(styleConfig.colBackgroundColor);
-            al_draw_bitmap(map.GetFullMap(), x_offset, y_offset, NULL);
+
+            al_draw_bitmap(map.GetLayerMap("Terrain"), x_offset, y_offset, 0);
+            /*
+            Playable characters should draw on this position
+            */
+            al_draw_bitmap(map.GetLayerMap("Buildings"), x_offset, y_offset, 0);
+            al_draw_bitmap(map.GetLayerMap("Decoration"), x_offset, y_offset, 0);
+
             al_flip_display();
         }
     }
