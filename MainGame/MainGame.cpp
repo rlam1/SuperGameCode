@@ -25,6 +25,7 @@ bool Init()
         al_set_new_display_flags(ALLEGRO_FULLSCREEN);
     }
     al_set_app_name(applicationConfig.strAppName.c_str());
+    al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_REQUIRE);
     display = al_create_display(applicationConfig.iDispW, applicationConfig.iDispH);
 
     al_install_keyboard();
