@@ -25,6 +25,7 @@ bool Init()
         al_set_new_display_flags(ALLEGRO_FULLSCREEN);
     }
     al_set_app_name(applicationConfig.strAppName.c_str());
+    al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_REQUIRE);
     display = al_create_display(applicationConfig.iDispW, applicationConfig.iDispH);
 
     al_install_keyboard();
@@ -55,20 +56,24 @@ bool Init()
 
 void AppBody()
 {
-    tmx_img_load_func = al_img_loader2;
-    tmx_img_free_func = (void(*)(void*))al_destroy_bitmap;
+    //tmx_img_load_func = al_img_loader2;
+    //tmx_img_free_func = (void(*)(void*))al_destroy_bitmap;
 
     bool done = false;
     bool redraw = false;
 
     TileMap map("data/maps/test.tmx");
+    std::cout << "walk on 0,0? " << map.CanWalktoTileAt(0, 0) << std::endl;
+    std::cout << "walk on 1,1? " << map.CanWalktoTileAt(1, 1) << std::endl;
+    std::cout << "walk on 39,29? " << map.CanWalktoTileAt(39, 29) << std::endl;
+    std::cout << "walk on 40,30? " << map.CanWalktoTileAt(40, 30) << std::endl;
 
     int x_offset = 0, y_offset = 0;
     int x_delta, y_delta;
     int key_state[2] = { 0, 0 };
 
-    x_delta = applicationConfig.iDispW - al_get_bitmap_width(map.DrawFullMap());
-    y_delta = applicationConfig.iDispH - al_get_bitmap_height(map.DrawFullMap());
+    x_delta = applicationConfig.iDispW - al_get_bitmap_width(map.GetFullMap());
+    y_delta = applicationConfig.iDispH - al_get_bitmap_height(map.GetFullMap());
 
     al_start_timer(timer);
     while (!done)
@@ -135,7 +140,7 @@ void AppBody()
         {
             redraw = false;
             al_clear_to_color(styleConfig.colBackgroundColor);
-            al_draw_bitmap(map.DrawFullMap(), x_offset, y_offset, NULL);
+            al_draw_bitmap(map.GetFullMap(), x_offset, y_offset, NULL);
             al_flip_display();
         }
     }
