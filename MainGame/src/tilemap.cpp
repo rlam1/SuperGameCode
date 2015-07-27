@@ -63,6 +63,55 @@ ALLEGRO_BITMAP* TileMap::GetFullMap()
     return fullMap;
 }
 
+/* TO DO:
+   - Refactor code copied from DrawFUllMap on both functions
+   - Find a way to avoid so much repeated functions on both cases (layer == null and layer = something)
+*/
+ALLEGRO_BITMAP* TileMap::GetLayerMap(std::string LayerName)
+{
+    tmx_layer *layer = getLayerByName(LayerName);
+
+    if (layer == nullptr)
+    {
+        al_set_target_bitmap(renderSurface);
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+        al_set_target_backbuffer(al_get_current_display());
+        return renderSurface; // Error message is printed by getLayerByName, so not needed here.
+    }
+
+    al_set_target_bitmap(renderSurface);
+    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+
+    if (layer->visible)
+    {
+        switch (layer->type)
+        {
+            case L_OBJGR:
+                draw_objects(layer->content.head, int_to_al_color(layer->color));
+                break;
+            case L_IMAGE:
+                if (layer->opacity < 1.)
+                {
+                    float op = layer->opacity;
+                    al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
+                } else
+                {
+                    al_draw_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, 0, 0, 0);
+                }
+                break;
+            case L_LAYER:
+                draw_layer(map, layer);
+                break;
+            default:
+                std::cerr << "Warning: I just dropped an unknown layer: " << layer->name << std::endl;
+                break;
+        }
+    }
+
+    al_set_target_backbuffer(al_get_current_display());
+    return renderSurface;
+}
+
 bool TileMap::CanWalktoTileAt(int x, int y)
 {
     unsigned int range = x * y;
@@ -210,8 +259,10 @@ void TileMap::renderFullMap()
                     {
                         float op = layers->opacity;
                         al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
+                    } else
+                    {
+                        al_draw_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, 0, 0, 0);
                     }
-                    al_draw_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, 0, 0, 0);
                     break;
                 case L_LAYER:
                     draw_layer(map, layers);
@@ -229,17 +280,18 @@ void TileMap::renderFullMap()
 
 tmx_layer *TileMap::getLayerByName(std::string name)
 {
-    std::string layerName = map->ly_head->name;
     tmx_layer *currLayer = map->ly_head;
+    std::string layerName = currLayer->name;
 
     while (currLayer)
     {
         if (layerName == name)
         {
-            return map->ly_head;
+            return currLayer;
         } else
         {
             currLayer = currLayer->next;
+            layerName = currLayer->name;
         }
     }
 
