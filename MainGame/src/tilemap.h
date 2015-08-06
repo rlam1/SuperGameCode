@@ -10,7 +10,8 @@ public:
     ~TileMap();
 
     ALLEGRO_BITMAP* GetFullMap();
-    ALLEGRO_BITMAP* GetLayerMap(std::string LayerName);
+    //ALLEGRO_BITMAP* GetLayerMap(std::string LayerName);
+    void DrawLayerMap(std::string LayerName);
 
     bool CanWalktoTileAt(int x, int y);
 private:
