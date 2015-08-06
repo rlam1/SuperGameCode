@@ -32,6 +32,7 @@ private:
     /* Map traversal utilities */
     tmx_layer *getLayerByName(std::string name);
     void readWalkProperty(int arrLength);
+    void identLayer(tmx_layer *layer);
 
     /* Internal Variables */
     const float LINE_THICKNESS = 2.5;
