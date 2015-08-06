@@ -138,16 +138,17 @@ void AppBody()
         if (redraw && al_is_event_queue_empty(queue))
         {
             al_translate_transform(&camera, x_offset, y_offset);
+            al_use_transform(&camera);
 
             redraw = false;
             al_clear_to_color(styleConfig.colBackgroundColor);
 
-            //al_draw_bitmap(map.GetLayerMap("Terrain"), x_offset, y_offset, 0);
-            ///*
-            //Playable characters should draw on this position
-            //*/
-            //al_draw_bitmap(map.GetLayerMap("Buildings"), x_offset, y_offset, 0);
-            //al_draw_bitmap(map.GetLayerMap("Decoration"), x_offset, y_offset, 0);
+            map.DrawLayerMap("Terrain");
+            /*
+            Playable characters should draw on this position
+            */
+            map.DrawLayerMap("Buildings");
+            map.DrawLayerMap("Decoration");
 
             al_flip_display();
         }
