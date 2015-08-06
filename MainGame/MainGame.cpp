@@ -63,6 +63,7 @@ void AppBody()
     bool redraw = false;
 
     TileMap map("data/maps/test.tmx");
+    ALLEGRO_TRANSFORM camera;
 
     int x_offset = 0, y_offset = 0;
     int x_delta, y_delta;
@@ -80,6 +81,8 @@ void AppBody()
         switch (ev.type)
         {
             case ALLEGRO_EVENT_TIMER:
+                al_identity_transform(&camera);
+
                 x_offset += key_state[0];
                 y_offset += key_state[1];
                 if (x_delta > 0)
@@ -134,15 +137,18 @@ void AppBody()
 
         if (redraw && al_is_event_queue_empty(queue))
         {
+            al_translate_transform(&camera, x_offset, y_offset);
+            al_use_transform(&camera);
+
             redraw = false;
             al_clear_to_color(styleConfig.colBackgroundColor);
 
-            al_draw_bitmap(map.GetLayerMap("Terrain"), x_offset, y_offset, 0);
+            map.DrawLayerMap("Terrain");
             /*
             Playable characters should draw on this position
             */
-            al_draw_bitmap(map.GetLayerMap("Buildings"), x_offset, y_offset, 0);
-            al_draw_bitmap(map.GetLayerMap("Decoration"), x_offset, y_offset, 0);
+            map.DrawLayerMap("Buildings");
+            map.DrawLayerMap("Decoration");
 
             al_flip_display();
         }

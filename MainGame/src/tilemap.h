@@ -10,7 +10,7 @@ public:
     ~TileMap();
 
     ALLEGRO_BITMAP* GetFullMap();
-    ALLEGRO_BITMAP* GetLayerMap(std::string LayerName);
+    void DrawLayerMap(std::string LayerName);
 
     bool CanWalktoTileAt(int x, int y);
 private:
@@ -32,11 +32,11 @@ private:
     /* Map traversal utilities */
     tmx_layer *getLayerByName(std::string name);
     void readWalkProperty(int arrLength);
+    void identLayer(tmx_layer *layer);
 
     /* Internal Variables */
     const float LINE_THICKNESS = 2.5;
     tmx_map *map;
-    ALLEGRO_BITMAP *renderSurface; // A scratchpath for rendering specific parts of the map
     ALLEGRO_BITMAP *fullMap;       // Prerendered full map;
     int *walkTable;                // Precalculated array holding tile walkability.
 };
