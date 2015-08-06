@@ -95,6 +95,8 @@ void TileMap::DrawLayerMap(std::string LayerName)
                 } else
                 {
                     al_draw_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, 0, 0, 0);
+                    // TODO: Make it so that this image tiles on the screen seamlesly as a backdrop
+                    //       in case it is smaller than the display.
                 }
                 break;
             case L_LAYER:
