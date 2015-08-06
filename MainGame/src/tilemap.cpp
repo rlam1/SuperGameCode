@@ -43,7 +43,6 @@ TileMap::TileMap(std::string path)
         tmx_map_free(map);
         return;
     }
-    renderSurface = al_clone_bitmap(fullMap);
 
     renderFullMap();
 
@@ -59,7 +58,6 @@ TileMap::TileMap(std::string path)
 TileMap::~TileMap()
 {
     tmx_map_free(map);
-    al_destroy_bitmap(renderSurface);
     al_destroy_bitmap(fullMap);
     delete [] walkTable;
 }
@@ -69,55 +67,10 @@ ALLEGRO_BITMAP* TileMap::GetFullMap()
     return fullMap;
 }
 
-/* TO DO for GetLayerMap:
+/* TO DO for DrawLayerMap:
    DONE Refactor code copied from DrawFUllMap on both functions
    - Find a way to avoid so much repeated functions on both cases (layer == null and layer = something)
 */
-//ALLEGRO_BITMAP* TileMap::GetLayerMap(std::string LayerName)
-//{
-//    tmx_layer *layer = getLayerByName(LayerName);
-//
-//    if (layer == nullptr)
-//    {
-//        al_set_target_bitmap(renderSurface);
-//        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-//        al_set_target_backbuffer(al_get_current_display());
-//        return renderSurface; // Error message is printed by getLayerByName, so not needed here.
-//    }
-//
-//    al_set_target_bitmap(renderSurface);
-//    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-//
-//    if (layer->visible)
-//    {
-//        switch (layer->type)
-//        {
-//            case L_OBJGR:
-//                draw_objects(layer->content.head, int_to_al_color(layer->color));
-//                break;
-//            case L_IMAGE:
-//                if (layer->opacity < 1.)
-//                {
-//                    float op = layer->opacity;
-//                    al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
-//                } else
-//                {
-//                    al_draw_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, 0, 0, 0);
-//                }
-//                break;
-//            case L_LAYER:
-//                draw_layer(map, layer);
-//                break;
-//            default:
-//                std::cerr << "Warning: I just dropped an unknown layer: " << layer->name << std::endl;
-//                break;
-//        }
-//    }
-//
-//    al_set_target_backbuffer(al_get_current_display());
-//    return renderSurface;
-//}
-
 void TileMap::DrawLayerMap(std::string LayerName)
 {
     tmx_layer *layer = getLayerByName(LayerName);
