@@ -67,10 +67,6 @@ ALLEGRO_BITMAP* TileMap::GetFullMap()
     return fullMap;
 }
 
-/* TO DO for DrawLayerMap:
-   DONE Refactor code copied from DrawFUllMap on both functions
-   - Find a way to avoid so much repeated functions on both cases (layer == null and layer = something)
-*/
 void TileMap::DrawLayerMap(std::string LayerName)
 {
     tmx_layer *layer = getLayerByName(LayerName);
@@ -82,30 +78,7 @@ void TileMap::DrawLayerMap(std::string LayerName)
 
     if (layer->visible)
     {
-        switch (layer->type)
-        {
-            case L_OBJGR:
-                draw_objects(layer->content.head, int_to_al_color(layer->color));
-                break;
-            case L_IMAGE:
-                if (layer->opacity < 1.)
-                {
-                    float op = layer->opacity;
-                    al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
-                } else
-                {
-                    al_draw_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, 0, 0, 0);
-                    // TODO: Make it so that this image tiles on the screen seamlesly as a backdrop
-                    //       in case it is smaller than the display.
-                }
-                break;
-            case L_LAYER:
-                draw_layer(map, layer);
-                break;
-            default:
-                std::cerr << "Warning: I just dropped an unknown layer: " << layer->name << std::endl;
-                break;
-        }
+        identLayer(layer);
     }
 }
 
@@ -244,31 +217,7 @@ void TileMap::renderFullMap()
 
     while (layers)
     {
-        if (layers->visible)
-        {
-            switch (layers->type)
-            {
-                case L_OBJGR:
-                    draw_objects(layers->content.head, int_to_al_color(layers->color));
-                    break;
-                case L_IMAGE:
-                    if (layers->opacity < 1.)
-                    {
-                        float op = layers->opacity;
-                        al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
-                    } else
-                    {
-                        al_draw_bitmap((ALLEGRO_BITMAP*) layers->content.image->resource_image, 0, 0, 0);
-                    }
-                    break;
-                case L_LAYER:
-                    draw_layer(map, layers);
-                    break;
-                default:
-                    std::cerr << "Warning: I just dropped an unknown layer: " << layers->name << std::endl;
-                    break;
-            }
-        }
+        identLayer(layers);
         layers = layers->next;
     }
 
@@ -325,5 +274,32 @@ void TileMap::readWalkProperty(int arrLength)
         } 
 
         layer = layer->next;
+    }
+}
+
+// Decides how to render a layer. then renders it.
+void TileMap::identLayer(tmx_layer *layer)
+{
+    switch (layer->type)
+    {
+        case L_OBJGR:
+            draw_objects(layer->content.head, int_to_al_color(layer->color));
+            break;
+        case L_IMAGE:
+            if (layer->opacity < 1.)
+            {
+                float op = layer->opacity;
+                al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
+            } else
+            {
+                al_draw_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, 0, 0, 0);
+            }
+            break;
+        case L_LAYER:
+            draw_layer(map, layer);
+            break;
+        default:
+            std::cerr << "Warning: I just dropped an unknown layer: " << layer->name << std::endl;
+            break;
     }
 }
