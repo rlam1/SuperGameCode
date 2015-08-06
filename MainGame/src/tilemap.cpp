@@ -124,11 +124,8 @@ void TileMap::DrawLayerMap(std::string LayerName)
 
     if (layer == nullptr)
     {
-        al_clear_to_color(al_map_rgba(0, 0, 0, 0)); // we still draw a transparent overlay
         return; // Error message is printed by getLayerByName, so not needed here.
     }
-
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 
     if (layer->visible)
     {
