@@ -6,11 +6,10 @@ Sprite::Sprite(std::string resLocation)
 {
 	pathToImage = resLocation;
 	isImageLoaded = LoadImageFile();
-	isErrorImageLoaded = false;
 
 	if (!isImageLoaded)
 	{
-		isErrorImageLoaded = GenErrorImage();
+		isImageLoaded = GenErrorImage();
 	} else
 	{
 		size.x = al_get_bitmap_width(sourceImage);
@@ -25,7 +24,7 @@ Sprite::Sprite(Vec2D size)
 	isImageLoaded = false;
 	this->size = size;
 
-	isErrorImageLoaded = GenErrorImage();
+	isImageLoaded = GenErrorImage();
 }
 
 Sprite::Sprite()
@@ -36,7 +35,7 @@ Sprite::Sprite()
 	size.x = 30;
 	size.y = 30;
 
-	isErrorImageLoaded = GenErrorImage();
+	isImageLoaded = GenErrorImage();
 }
 
 
@@ -56,7 +55,6 @@ void Sprite::SetImagePath(std::string resLocation)
     //Temporal storage for original image data
     std::string oldPath = pathToImage;
 	oldImage = sourceImage;  // This one is class scope to keep pointer if function is terminated.
-    bool oldErrorImage = isErrorImageLoaded;
     bool oldImageLoaded = isImageLoaded;
 
 	pathToImage = resLocation;
@@ -67,7 +65,6 @@ void Sprite::SetImagePath(std::string resLocation)
         isImageLoaded = false;
     } else
     {
-        isErrorImageLoaded = false;
         isImageLoaded = true;
         al_destroy_bitmap(oldImage);
 
@@ -84,7 +81,6 @@ void Sprite::SetImagePath(std::string resLocation)
 		sourceImage = oldImage;
         pathToImage = oldPath;
 
-		isErrorImageLoaded = oldErrorImage;
         isImageLoaded = oldImageLoaded;
 	}
 }
@@ -98,7 +94,7 @@ Vec2D Sprite::GetSize()
 
 ALLEGRO_BITMAP* Sprite::GetSprite()
 {
-    if (isImageLoaded || isErrorImageLoaded)
+    if (isImageLoaded)
     {
         return sourceImage;
     }
