@@ -25,7 +25,6 @@ private:
     ALLEGRO_BITMAP *oldImage;
 	Vec2D size;
 	bool isImageLoaded;
-	bool isErrorImageLoaded;
 	std::string pathToImage;
 
 	bool LoadImageFile();
