@@ -4,38 +4,14 @@
 
 Sprite::Sprite(std::string resLocation)
 {
-	pathToImage = resLocation;
-	isImageLoaded = LoadImageFile();
-
-	if (!isImageLoaded)
-	{
-		isImageLoaded = GenErrorImage();
-	} else
-	{
-		size.x = al_get_bitmap_width(sourceImage);
-		size.y = al_get_bitmap_height(sourceImage);
-	}
-}
-
-Sprite::Sprite(Vec2D size)
-{
-	pathToImage = "";
-	sourceImage = nullptr;
-	isImageLoaded = false;
-	this->size = size;
-
-	isImageLoaded = GenErrorImage();
 }
 
 Sprite::Sprite()
 {
-	pathToImage = "";
 	sourceImage = nullptr;
-	isImageLoaded = false;
 	size.x = 30;
 	size.y = 30;
-
-	isImageLoaded = GenErrorImage();
+    GenErrorImage();
 }
 
 
@@ -44,80 +20,19 @@ Sprite::~Sprite()
 	al_destroy_bitmap(sourceImage);
 }
 
+/*
+    This makes a blue square with a yellow triangle inside that
+    has an exclamation mark. This image is used anytime an image
+    file on disk fails to load.
 
-void Sprite::SetImagePath(std::string resLocation)
-{
-    //TODO: Make the logic in this code use private LoadImageFile function.
-
-	if (pathToImage == resLocation)
-		return;
-
-    //Temporal storage for original image data
-    std::string oldPath = pathToImage;
-	oldImage = sourceImage;  // This one is class scope to keep pointer if function is terminated.
-    bool oldImageLoaded = isImageLoaded;
-
-	pathToImage = resLocation;
-
-	sourceImage = al_load_bitmap(pathToImage.c_str());
-    if (sourceImage == nullptr)
-    {
-        isImageLoaded = false;
-    } else
-    {
-        isImageLoaded = true;
-        al_destroy_bitmap(oldImage);
-
-        size.x = al_get_bitmap_width(sourceImage);
-        size.y = al_get_bitmap_height(sourceImage);
-
-        return;
-    }
-
-	if (isImageLoaded == false)         //Restore original Sprite status
-	{
-		al_destroy_bitmap(sourceImage); //TODO: Check if this is necesarry at all since image loading failed anyways...
-
-		sourceImage = oldImage;
-        pathToImage = oldPath;
-
-        isImageLoaded = oldImageLoaded;
-	}
-}
-
-
-Vec2D Sprite::GetSize()
-{
-	return size;
-}
-
-
-ALLEGRO_BITMAP* Sprite::GetSprite()
-{
-    if (isImageLoaded)
-    {
-        return sourceImage;
-    }
-    else
-    {
-        return nullptr;
-    }
-}
-
-
-bool Sprite::LoadImageFile()
-{
-	sourceImage = al_load_bitmap(pathToImage.c_str());
-
-	if (sourceImage == nullptr)
-	{
-		return false;
-	}
-
-	return true;
-}
-
-
+    ---------------
+    |      ^      |
+    |     / \     |
+    |    / ! \    |  <- Kinda like this...
+    |   /     \   |
+    |   -------   |
+    ---------------
+*/
 bool Sprite::GenErrorImage()
 {
 	sourceImage = al_create_bitmap((int) size.x, (int) size.y);
