@@ -102,11 +102,6 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
-  <tile id="105">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
   <tile id="106">
    <properties>
     <property name="canWalk" value="0"/>
