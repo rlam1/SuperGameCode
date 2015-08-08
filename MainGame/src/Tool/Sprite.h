@@ -18,9 +18,18 @@
 
 enum class AnimState {
     IDLE,
-    WALKING,
+    MOVING,
     ATTACKING,
-    HARMED
+    HARMED,
+    SPECIAL0,
+    SPECIAL1
+};
+
+enum class AnimDir : char {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
 };
 
 class Sprite {
