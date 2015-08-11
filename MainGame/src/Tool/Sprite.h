@@ -41,7 +41,8 @@ public:
 	virtual ~Sprite();
 
 private:
-	ALLEGRO_BITMAP* sourceImage;
+	ALLEGRO_BITMAP *sourceImage;
+    std::string sourceImgPath;
     int frameWidth, frameHeight;
     int frameDelay;
     int rows, columns, frames;
@@ -50,10 +51,14 @@ private:
         AnimState type;
         int startCol;
         unsigned char sides;
+
+        _animations(AnimState _type, int _startCol, unsigned _sides) :
+            type(_type), startCol(_startCol), sides(_sides) {}
     };
     std::forward_list<_animations> animList;
 
 	bool GenErrorImage();
     void parseADF(std::string resLoc);
+    void fallbackToDefaultADF(std::string resLoc);
 };  
 
