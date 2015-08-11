@@ -1,6 +1,7 @@
 #pragma once
-#include "Vec.h"
 #include "Init.h"
+
+#include <forward_list>
 
 /*
     Feature List
@@ -18,16 +19,17 @@
 
 enum class AnimState {
     IDLE,
-    MOVING,
-    ATTACKING,
+    MOVE,
+    ATTACK0,
+    ATTACK1,
     HARMED,
     SPECIAL0,
     SPECIAL1
 };
 
 enum class AnimDir : char {
-    UP,
     DOWN,
+    UP,
     LEFT,
     RIGHT
 };
@@ -40,8 +42,18 @@ public:
 
 private:
 	ALLEGRO_BITMAP* sourceImage;
-	Vec2D size;
+    int frameWidth, frameHeight;
+    int frameDelay;
+    int rows, columns, frames;
+
+    struct _animations {
+        AnimState type;
+        int startCol;
+        unsigned char sides;
+    };
+    std::forward_list<_animations> animList;
 
 	bool GenErrorImage();
-};
+    void parseADF(std::string resLoc);
+};  
 
