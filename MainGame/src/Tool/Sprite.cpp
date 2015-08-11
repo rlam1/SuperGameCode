@@ -9,8 +9,6 @@ Sprite::Sprite(std::string resLocation)
 Sprite::Sprite()
 {
 	sourceImage = nullptr;
-	size.x = 30;
-	size.y = 30;
     GenErrorImage();
 }
 
@@ -35,7 +33,7 @@ Sprite::~Sprite()
 */
 bool Sprite::GenErrorImage()
 {
-	sourceImage = al_create_bitmap((int) size.x, (int) size.y);
+	sourceImage = al_create_bitmap(frameWidth, frameHeight);
 
 	if (sourceImage == nullptr)
 		return false;
@@ -44,8 +42,8 @@ bool Sprite::GenErrorImage()
 	ALLEGRO_COLOR shadow = al_color_html("#1a237e");
 	ALLEGRO_COLOR sign = al_color_html("#ffeb3b");
 
-	float w = size.x;
-	float h = size.y;
+	float w = frameWidth;
+	float h = frameHeight;
 
 	al_set_target_bitmap(sourceImage);
 	al_clear_to_color(background);
@@ -65,4 +63,22 @@ bool Sprite::GenErrorImage()
 	al_set_target_backbuffer(al_get_current_display());
 
 	return true;
+}
+
+void Sprite::parseADF(std::string resLoc)
+{
+    ALLEGRO_CONFIG *file = al_load_config_file(resLoc.c_str());
+    if (file == nullptr)
+    {
+        std::cerr << "Error: ADF file " << resLoc << " not found!, fallback to errorImage" << std::endl;
+        frameWidth = 30; frameHeight = 30;
+        frameDelay = 1;
+        GenErrorImage();
+
+        rows = 30 / frameHeight;
+        columns = 30 / frameWidth;
+        frames = rows * columns;
+
+        animList.emplace_front(AnimState::IDLE, 0, 1);
+    }
 }
