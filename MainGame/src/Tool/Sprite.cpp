@@ -123,8 +123,15 @@ void Sprite::parseADF(std::string resLoc)
                 {
                     std::cerr << "Warning: Unknown key-pair value: " << sectionName << "=" << entryName << std::endl;
                 }
+
+                entryName = al_get_next_config_entry(&entry);
+                continue;
+            } else // All other sections
+            {
+
+                entryName = al_get_next_config_entry(&entry);
+                continue;
             }
-            entryName = al_get_next_config_entry(&entry);
         }
 
         sectionName = al_get_next_config_section(&section);
