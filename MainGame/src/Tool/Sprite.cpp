@@ -65,20 +65,68 @@ bool Sprite::GenErrorImage()
 	return true;
 }
 
+void Sprite::fallbackToDefaultADF(std::string resLoc)
+{
+    std::cerr << "Error: ADF file " << resLoc << " not found!, fallback to errorImage" << std::endl;
+    frameWidth = 30; frameHeight = 30;
+    frameDelay = 1;
+    GenErrorImage();
+
+    rows = 30 / frameHeight;
+    columns = 30 / frameWidth;
+    frames = rows * columns;
+
+    animList.emplace_front(AnimState::IDLE, 0, 1);
+    return;
+}
+
 void Sprite::parseADF(std::string resLoc)
 {
+    const std::string sections [] = { "", "IDLE", "MOVE", "ATTACK0", "ATTACK1", "HARMED", "SPECIAL0", "SPECIAL1" };
+    const std::string entries [] = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startCol", "sides" };
+
     ALLEGRO_CONFIG *file = al_load_config_file(resLoc.c_str());
     if (file == nullptr)
     {
-        std::cerr << "Error: ADF file " << resLoc << " not found!, fallback to errorImage" << std::endl;
-        frameWidth = 30; frameHeight = 30;
-        frameDelay = 1;
-        GenErrorImage();
+        fallbackToDefaultADF(resLoc);
+        return;
+    }
 
-        rows = 30 / frameHeight;
-        columns = 30 / frameWidth;
-        frames = rows * columns;
+    ALLEGRO_CONFIG_SECTION *section = nullptr;
+    ALLEGRO_CONFIG_ENTRY   *entry   = nullptr;
+    const char *sectionName = nullptr;
+    const char *entryName   = nullptr;
 
-        animList.emplace_front(AnimState::IDLE, 0, 1);
+    sectionName = al_get_first_config_section(file, &section);
+
+    while (section != nullptr)
+    {
+        entryName = al_get_first_config_entry(file, sectionName, &entry);
+        while (entry != nullptr)
+        {
+            if (sectionName == sections[0]) // Global section
+            {
+                if (entryName == entries[0])
+                {
+                    sourceImgPath = al_get_config_value(file, sectionName, entryName);
+                } else if (entryName == entries[1])
+                {
+                    frameWidth = std::atoi(al_get_config_value(file, sectionName, entryName));
+                }
+                else if (entryName == entries[2])
+                {
+                    frameHeight = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else if (entryName == entries[3])
+                {
+                    frameDelay = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else
+                {
+                    std::cerr << "Warning: Unknown key-pair value: " << sectionName << "=" << entryName << std::endl;
+                }
+            }
+            entryName = al_get_next_config_entry(&entry);
+        }
+
+        sectionName = al_get_next_config_section(&section);
     }
 }
