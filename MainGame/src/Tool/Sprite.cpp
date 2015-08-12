@@ -3,10 +3,21 @@
 
 #include <array>
 
+std::array<std::string, 8> sections = { "", "IDLE", "MOVE", "ATTACK0", "ATTACK1", "HARMED", "SPECIAL0", "SPECIAL1" };
+std::array<std::string, 6> entries = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startCol", "sides" };
+
 std::ostream& operator << (std::ostream& os, const AnimState& obj)
 {
-    os << static_cast<std::underlying_type<AnimState>::type>(obj);
-    return os;
+    int type = static_cast<std::underlying_type<AnimState>::type>(obj);
+    if (type >= 1 && type < 8)
+    {
+        os << sections[type];
+        return os;
+    } else
+    {
+        os << "Corrupt";
+        return os;
+    }
 }
 
 Sprite::Sprite(std::string resLocation)
@@ -139,9 +150,6 @@ while we have a valid section:
 */
 bool Sprite::parseADF(std::string resLoc)
 {
-    std::array<std::string, 8> sections = { "", "IDLE", "MOVE", "ATTACK0", "ATTACK1", "HARMED", "SPECIAL0", "SPECIAL1" };
-    std::array<std::string, 6> entries = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startCol", "sides" };
-
     ALLEGRO_CONFIG *file = al_load_config_file(resLoc.c_str());
     if (file == nullptr)
     {
