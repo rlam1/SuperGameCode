@@ -18,7 +18,7 @@
 */
 
 enum class AnimState {
-    IDLE,
+    IDLE = 1,
     MOVE,
     ATTACK0,
     ATTACK1,
