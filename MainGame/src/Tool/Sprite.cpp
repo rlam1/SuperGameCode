@@ -5,6 +5,13 @@
 
 Sprite::Sprite(std::string resLocation)
 {
+    if (parseADF(resLocation) == false)
+    {
+        std::cerr << "Warning: Loading of " << resLocation << " failed. Error Image generated." << std::endl;
+        return;
+    }
+
+    sourceImage = al_load_bitmap(sourceImgPath.c_str());
 }
 
 Sprite::Sprite()
@@ -17,6 +24,7 @@ Sprite::Sprite()
 Sprite::~Sprite()
 {
 	al_destroy_bitmap(sourceImage);
+    animList.clear();
 }
 
 /*
@@ -71,6 +79,7 @@ void Sprite::fallbackToDefaultADF(std::string resLoc)
     std::cerr << "Error: ADF file " << resLoc << " not found!, fallback to errorImage" << std::endl;
     frameWidth = 30; frameHeight = 30;
     frameDelay = 1;
+    sourceImgPath = "";
     GenErrorImage();
 
     rows = 30 / frameHeight;
@@ -97,7 +106,7 @@ while we have a valid section:
             read next entry
     read next section
 */
-void Sprite::parseADF(std::string resLoc)
+bool Sprite::parseADF(std::string resLoc)
 {
     std::array<std::string, 8> sections = { "", "IDLE", "MOVE", "ATTACK0", "ATTACK1", "HARMED", "SPECIAL0", "SPECIAL1" };
     std::array<std::string, 6> entries = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startCol", "sides" };
@@ -106,7 +115,7 @@ void Sprite::parseADF(std::string resLoc)
     if (file == nullptr)
     {
         fallbackToDefaultADF(resLoc);
-        return;
+        return false;
     }
 
     ALLEGRO_CONFIG_SECTION *section = nullptr;
@@ -193,4 +202,7 @@ void Sprite::parseADF(std::string resLoc)
 
         sectionName = al_get_next_config_section(&section);
     }
+
+    al_destroy_config(file);
+    return true;
 }
