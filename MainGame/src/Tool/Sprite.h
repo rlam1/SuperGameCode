@@ -27,7 +27,7 @@ enum class AnimState {
     SPECIAL1
 };
 
-enum class AnimDir : char {
+enum class AnimDir : unsigned char {
     DOWN,
     UP,
     LEFT,
@@ -58,7 +58,7 @@ private:
     std::forward_list<_animations> animList;
 
 	bool GenErrorImage();
-    void parseADF(std::string resLoc);
+    bool parseADF(std::string resLoc);
     void fallbackToDefaultADF(std::string resLoc);
 };  
 
