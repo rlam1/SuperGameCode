@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
+#include <array>
 
 Sprite::Sprite(std::string resLocation)
 {
@@ -80,10 +81,26 @@ void Sprite::fallbackToDefaultADF(std::string resLoc)
     return;
 }
 
+/*
+Load the file
+Read first section
+while we have a valid section:
+    If the first section is the blank section ("") then enter the section
+        read the first entry
+        while we have a valid entry
+            map the entry to its internal container value
+            read next entry
+    If the section is any other section, map the name to its animation state.
+        read the first entry
+        while we have a valid entry
+            map the entry to its internal container value
+            read next entry
+    read next section
+*/
 void Sprite::parseADF(std::string resLoc)
 {
-    const std::string sections [] = { "", "IDLE", "MOVE", "ATTACK0", "ATTACK1", "HARMED", "SPECIAL0", "SPECIAL1" };
-    const std::string entries [] = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startCol", "sides" };
+    std::array<std::string, 8> sections = { "", "IDLE", "MOVE", "ATTACK0", "ATTACK1", "HARMED", "SPECIAL0", "SPECIAL1" };
+    std::array<std::string, 6> entries = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startCol", "sides" };
 
     ALLEGRO_CONFIG *file = al_load_config_file(resLoc.c_str());
     if (file == nullptr)
@@ -101,10 +118,10 @@ void Sprite::parseADF(std::string resLoc)
 
     while (section != nullptr)
     {
-        entryName = al_get_first_config_entry(file, sectionName, &entry);
-        while (entry != nullptr)
+        if (sectionName == sections[0]) // Global section
         {
-            if (sectionName == sections[0]) // Global section
+            entryName = al_get_first_config_entry(file, sectionName, &entry);
+            while (entry != nullptr)
             {
                 if (entryName == entries[0])
                 {
@@ -112,8 +129,7 @@ void Sprite::parseADF(std::string resLoc)
                 } else if (entryName == entries[1])
                 {
                     frameWidth = std::atoi(al_get_config_value(file, sectionName, entryName));
-                }
-                else if (entryName == entries[2])
+                } else if (entryName == entries[2])
                 {
                     frameHeight = std::atoi(al_get_config_value(file, sectionName, entryName));
                 } else if (entryName == entries[3])
@@ -121,17 +137,58 @@ void Sprite::parseADF(std::string resLoc)
                     frameDelay = std::atoi(al_get_config_value(file, sectionName, entryName));
                 } else
                 {
-                    std::cerr << "Warning: Unknown key-pair value: " << sectionName << "=" << entryName << std::endl;
+                    std::cerr << "Warning: Unknown key-pair for value at " << sectionName << "." << entryName << std::endl;
                 }
 
                 entryName = al_get_next_config_entry(&entry);
-                continue;
-            } else // All other sections
+            }
+        } else // All other sections
+        {
+            AnimState state;
+            int start;
+            unsigned char sides;
+
+            if (sectionName == sections[1])
             {
+                state = AnimState::IDLE;
+            } else if (sectionName == sections[2])
+            {
+                state = AnimState::MOVE;
+            } else if (sectionName == sections[3])
+            {
+                state = AnimState::ATTACK0;
+            } else if (sectionName == sections[4])
+            {
+                state = AnimState::ATTACK1;
+            } else if (sectionName == sections[5])
+            {
+                state = AnimState::HARMED;
+            } else if (sectionName == sections[6])
+            {
+                state = AnimState::SPECIAL0;
+            } else if (sectionName == sections[7])
+            {
+                state = AnimState::SPECIAL1;
+            }
+
+            entryName = al_get_first_config_entry(file, sectionName, &entry);
+            while (entry != nullptr)
+            {
+                if (entryName == entries[4])
+                {
+                    start = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else if (entryName == entries[5])
+                {
+                    sides = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else
+                {
+                    std::cerr << "Warning: Unknown key-pair for value at " << sectionName << "." << entryName << std::endl;
+                }
 
                 entryName = al_get_next_config_entry(&entry);
-                continue;
             }
+
+            animList.emplace_front(state, start, sides);
         }
 
         sectionName = al_get_next_config_section(&section);
