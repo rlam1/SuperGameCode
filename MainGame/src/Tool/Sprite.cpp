@@ -3,6 +3,12 @@
 
 #include <array>
 
+std::ostream& operator << (std::ostream& os, const AnimState& obj)
+{
+    os << static_cast<std::underlying_type<AnimState>::type>(obj);
+    return os;
+}
+
 Sprite::Sprite(std::string resLocation)
 {
     if (parseADF(resLocation) == false)
@@ -10,8 +16,17 @@ Sprite::Sprite(std::string resLocation)
         std::cerr << "Warning: Loading of " << resLocation << " failed. Error Image generated." << std::endl;
         return;
     }
-
     sourceImage = al_load_bitmap(sourceImgPath.c_str());
+    if (sourceImage == nullptr)
+    {
+        animList.clear();
+        fallbackToDefaultADF(sourceImgPath);
+    }
+    rows = al_get_bitmap_height(sourceImage) / frameHeight;
+    columns = al_get_bitmap_width(sourceImage) / frameWidth;
+    frames = rows * columns;
+
+    printData();
 }
 
 Sprite::Sprite()
@@ -25,6 +40,22 @@ Sprite::~Sprite()
 {
 	al_destroy_bitmap(sourceImage);
     animList.clear();
+}
+
+void Sprite::printData()
+{
+    std::cout << "****************SPRITE DATA DUMP****************" << std::endl
+        << "resPath=" << sourceImgPath << ", loaded at 0x" << sourceImage << std::endl
+        << "frames: Width=" << frameWidth << " | Height=" << frameHeight << " | Delay=" << frameDelay << std::endl
+        << "total frames=" << frames << " rows=" << rows << " columns=" << columns << std::endl
+        << "Animations: " << std::endl;
+
+    for (const auto &anim : animList)
+    {
+        std::cout << std::endl << " Type=" << anim.type << std::endl
+            << "  Starting Column=" << anim.startCol << std::endl
+            << "  Active sides(BITFIELD)=" << (int)anim.sides << std::endl;
+    }
 }
 
 /*
@@ -76,7 +107,7 @@ bool Sprite::GenErrorImage()
 
 void Sprite::fallbackToDefaultADF(std::string resLoc)
 {
-    std::cerr << "Error: ADF file " << resLoc << " not found!, fallback to errorImage" << std::endl;
+    std::cerr << "Error: Resource " << resLoc << " not found!, fallback to errorImage" << std::endl;
     frameWidth = 30; frameHeight = 30;
     frameDelay = 1;
     sourceImgPath = "";
@@ -178,6 +209,10 @@ bool Sprite::parseADF(std::string resLoc)
             } else if (sectionName == sections[7])
             {
                 state = AnimState::SPECIAL1;
+            } else
+            {
+                std::cerr << "Warning: Unknown section name: " << sectionName << " default to IDLE" << std::endl;
+                state = AnimState::IDLE;
             }
 
             entryName = al_get_first_config_entry(file, sectionName, &entry);
