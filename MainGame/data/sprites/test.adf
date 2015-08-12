@@ -1,0 +1,10 @@
+resPath=data/sprites/res/action1.png
+frameWidth=46
+frameHeight=64
+frameDelay=20
+# The individual frames should be 46x64
+
+[IDLE5]
+startCol=2
+# Here only one bit (0000 0001) is set, for the DOWN side.
+sides=1

@@ -3,6 +3,8 @@
 
 #include <forward_list>
 
+#include <type_traits>
+
 /*
     Feature List
     - Loads spritesheet
@@ -27,6 +29,8 @@ enum class AnimState {
     SPECIAL1
 };
 
+std::ostream& operator << (std::ostream& os, const AnimState& obj);
+
 enum class AnimDir : unsigned char {
     DOWN,
     UP,
@@ -39,6 +43,8 @@ public:
 	Sprite(std::string resLocation);
 	Sprite();
 	virtual ~Sprite();
+
+    void printData();
 
 private:
 	ALLEGRO_BITMAP *sourceImage;
