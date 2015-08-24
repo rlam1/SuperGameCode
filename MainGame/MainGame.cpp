@@ -101,6 +101,7 @@ void AppBody()
                     if (y_offset > 0) y_offset = 0;
                 }
 
+                sprt.Update();
                 redraw = true;
                 break;
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
@@ -143,6 +144,7 @@ void AppBody()
             /*
             Playable characters should draw on this position
             */
+            sprt.Render(x_offset, y_offset);
             al_draw_bitmap(map.GetLayerMap("Buildings"), x_offset, y_offset, 0);
             al_draw_bitmap(map.GetLayerMap("Decoration"), x_offset, y_offset, 0);
 
