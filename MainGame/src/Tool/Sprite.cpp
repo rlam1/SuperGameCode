@@ -1,130 +1,123 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
+#include <array>
+
+std::array<std::string, 8> sections = { "", "IDLE", "MOVE", "ATTACK0", "ATTACK1", "HARMED", "SPECIAL0", "SPECIAL1" };
+std::array<std::string, 6> entries = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startRow", "sides" };
+
+std::ostream& operator << (std::ostream& os, const AnimState& obj)
+{
+    int type = static_cast<std::underlying_type<AnimState>::type>(obj);
+    if (type >= 1 && type < 8)
+    {
+        os << sections[type];
+        return os;
+    } else
+    {
+        os << "Corrupt";
+        return os;
+    }
+}
 
 Sprite::Sprite(std::string resLocation)
 {
-	pathToImage = resLocation;
-	isImageLoaded = LoadImageFile();
-	isErrorImageLoaded = false;
+    if (parseADF(resLocation) == false)
+    {
+        std::cerr << "Warning: Loading of " << resLocation << " failed. Error Image generated." << std::endl;
+        return;
+    }
+    sourceImage = al_load_bitmap(sourceImgPath.c_str());
+    if (sourceImage == nullptr)
+    {
+        animList.clear();
+        fallbackToDefaultADF(sourceImgPath);
+    }
+    rows = al_get_bitmap_height(sourceImage) / frameHeight;
+    columns = al_get_bitmap_width(sourceImage) / frameWidth;
+    frames = rows * columns;
+    frameCount = 0;
 
-	if (!isImageLoaded)
-	{
-		isErrorImageLoaded = GenErrorImage();
-	} else
-	{
-		size.x = al_get_bitmap_width(sourceImage);
-		size.y = al_get_bitmap_height(sourceImage);
-	}
-}
+    // Quick additional sanity check
+    for (auto &anim : animList)
+    {
+        if (anim.startRow <= 0 || anim.startRow > rows - 1)
+        {
+            std::cerr << "Warning: Animation out of bounds, will default to start at origin. " << resLocation << std::endl
+                << "         rows = " << rows << ", and animation wants to start at " << anim.startRow << std::endl;
+            anim.startRow = 0;
+        }
+    }
 
-Sprite::Sprite(Vec2D size)
-{
-	pathToImage = "";
-	sourceImage = nullptr;
-	isImageLoaded = false;
-	this->size = size;
-
-	isErrorImageLoaded = GenErrorImage();
+    printData();
 }
 
 Sprite::Sprite()
 {
-	pathToImage = "";
 	sourceImage = nullptr;
-	isImageLoaded = false;
-	size.x = 30;
-	size.y = 30;
-
-	isErrorImageLoaded = GenErrorImage();
+    frameCount = 0;
+    fallbackToDefaultADF("INTENTIONAL ERROR TRIGGER, DISREGARD ERROR");
 }
 
 
 Sprite::~Sprite()
 {
 	al_destroy_bitmap(sourceImage);
+    animList.clear();
 }
 
-
-void Sprite::SetImagePath(std::string resLocation)
+void Sprite::Update()
 {
-    //TODO: Make the logic in this code use private LoadImageFile function.
-
-	if (pathToImage == resLocation)
-		return;
-
-    //Temporal storage for original image data
-    std::string oldPath = pathToImage;
-	oldImage = sourceImage;  // This one is class scope to keep pointer if function is terminated.
-    bool oldErrorImage = isErrorImageLoaded;
-    bool oldImageLoaded = isImageLoaded;
-
-	pathToImage = resLocation;
-
-	sourceImage = al_load_bitmap(pathToImage.c_str());
-    if (sourceImage == nullptr)
+    frameCount++;
+    if (frameCount >= frameDelay)
     {
-        isImageLoaded = false;
-    } else
-    {
-        isErrorImageLoaded = false;
-        isImageLoaded = true;
-        al_destroy_bitmap(oldImage);
+        curFrame++;
+        if (curFrame >= columns)
+        {
+            curFrame = 0;
+        }
 
-        size.x = al_get_bitmap_width(sourceImage);
-        size.y = al_get_bitmap_height(sourceImage);
-
-        return;
-    }
-
-	if (isImageLoaded == false)         //Restore original Sprite status
-	{
-		al_destroy_bitmap(sourceImage); //TODO: Check if this is necesarry at all since image loading failed anyways...
-
-		sourceImage = oldImage;
-        pathToImage = oldPath;
-
-		isErrorImageLoaded = oldErrorImage;
-        isImageLoaded = oldImageLoaded;
-	}
-}
-
-
-Vec2D Sprite::GetSize()
-{
-	return size;
-}
-
-
-ALLEGRO_BITMAP* Sprite::GetSprite()
-{
-    if (isImageLoaded || isErrorImageLoaded)
-    {
-        return sourceImage;
-    }
-    else
-    {
-        return nullptr;
+        frameCount = 0;
     }
 }
 
-
-bool Sprite::LoadImageFile()
+void Sprite::Render(float scX, float scY)
 {
-	sourceImage = al_load_bitmap(pathToImage.c_str());
-
-	if (sourceImage == nullptr)
-	{
-		return false;
-	}
-
-	return true;
+    al_draw_bitmap_region(sourceImage, curFrame * frameWidth, 2 * frameHeight, frameWidth, frameHeight, 100 + scX, 50 + scY, 0);
 }
 
+void Sprite::printData()
+{
+    std::cout << "****************SPRITE DATA DUMP****************" << std::endl
+        << "resPath=" << sourceImgPath << ", loaded at 0x" << sourceImage << std::endl
+        << "frames: Width=" << frameWidth << " | Height=" << frameHeight << " | Delay=" << frameDelay << std::endl
+        << "total frames=" << frames << " rows=" << rows << " columns=" << columns << std::endl
+        << "Animations: " << std::endl;
 
+    for (const auto &anim : animList)
+    {
+        std::cout << std::endl << " Type=" << anim.type << std::endl
+            << "  Starting Row=" << anim.startRow << std::endl
+            << "  Active sides(BITFIELD)=" << (int)anim.sides << std::endl;
+    }
+}
+
+/*
+    This makes a blue square with a yellow triangle inside that
+    has an exclamation mark. This image is used anytime an image
+    file on disk fails to load.
+
+    ---------------
+    |      ^      |
+    |     / \     |
+    |    / ! \    |  <- Kinda like this...
+    |   /     \   |
+    |   -------   |
+    ---------------
+*/
 bool Sprite::GenErrorImage()
 {
-	sourceImage = al_create_bitmap((int) size.x, (int) size.y);
+	sourceImage = al_create_bitmap(frameWidth, frameHeight);
 
 	if (sourceImage == nullptr)
 		return false;
@@ -133,8 +126,8 @@ bool Sprite::GenErrorImage()
 	ALLEGRO_COLOR shadow = al_color_html("#1a237e");
 	ALLEGRO_COLOR sign = al_color_html("#ffeb3b");
 
-	float w = size.x;
-	float h = size.y;
+	float w = frameWidth;
+	float h = frameHeight;
 
 	al_set_target_bitmap(sourceImage);
 	al_clear_to_color(background);
@@ -154,4 +147,138 @@ bool Sprite::GenErrorImage()
 	al_set_target_backbuffer(al_get_current_display());
 
 	return true;
+}
+
+void Sprite::fallbackToDefaultADF(std::string resLoc)
+{
+    std::cerr << "Error: Resource " << resLoc << " not found!, fallback to errorImage" << std::endl;
+    frameWidth = 30; frameHeight = 30;
+    frameDelay = 1;
+    sourceImgPath = "";
+    GenErrorImage();
+
+    rows = 30 / frameHeight;
+    columns = 30 / frameWidth;
+    frames = rows * columns;
+
+    animList.emplace_front(AnimState::IDLE, 0, 1);
+    return;
+}
+
+/*
+Load the file
+Read first section
+while we have a valid section:
+    If the first section is the blank section ("") then enter the section
+        read the first entry
+        while we have a valid entry
+            map the entry to its internal container value
+            read next entry
+    If the section is any other section, map the name to its animation state.
+        read the first entry
+        while we have a valid entry
+            map the entry to its internal container value
+            read next entry
+    read next section
+*/
+bool Sprite::parseADF(std::string resLoc)
+{
+    ALLEGRO_CONFIG *file = al_load_config_file(resLoc.c_str());
+    if (file == nullptr)
+    {
+        fallbackToDefaultADF(resLoc);
+        return false;
+    }
+
+    ALLEGRO_CONFIG_SECTION *section = nullptr;
+    ALLEGRO_CONFIG_ENTRY   *entry   = nullptr;
+    const char *sectionName = nullptr;
+    const char *entryName   = nullptr;
+
+    sectionName = al_get_first_config_section(file, &section);
+
+    while (section != nullptr)
+    {
+        if (sectionName == sections[0]) // Global section
+        {
+            entryName = al_get_first_config_entry(file, sectionName, &entry);
+            while (entry != nullptr)
+            {
+                if (entryName == entries[0])
+                {
+                    sourceImgPath = al_get_config_value(file, sectionName, entryName);
+                } else if (entryName == entries[1])
+                {
+                    frameWidth = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else if (entryName == entries[2])
+                {
+                    frameHeight = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else if (entryName == entries[3])
+                {
+                    frameDelay = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else
+                {
+                    std::cerr << "Warning: Unknown key-pair for value at " << sectionName << "." << entryName << std::endl;
+                }
+
+                entryName = al_get_next_config_entry(&entry);
+            }
+        } else // All other sections
+        {
+            AnimState state;
+            int start;
+            unsigned char sides;
+
+            if (sectionName == sections[1])
+            {
+                state = AnimState::IDLE;
+            } else if (sectionName == sections[2])
+            {
+                state = AnimState::MOVE;
+            } else if (sectionName == sections[3])
+            {
+                state = AnimState::ATTACK0;
+            } else if (sectionName == sections[4])
+            {
+                state = AnimState::ATTACK1;
+            } else if (sectionName == sections[5])
+            {
+                state = AnimState::HARMED;
+            } else if (sectionName == sections[6])
+            {
+                state = AnimState::SPECIAL0;
+            } else if (sectionName == sections[7])
+            {
+                state = AnimState::SPECIAL1;
+            } else
+            {
+                std::cerr << "Warning: Unknown section name: " << sectionName << " default to IDLE" << std::endl;
+                state = AnimState::IDLE;
+            }
+
+            entryName = al_get_first_config_entry(file, sectionName, &entry);
+            while (entry != nullptr)
+            {
+                if (entryName == entries[4]) // Start Row
+                {
+                    start = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else if (entryName == entries[5]) // Sides bitfield
+                {
+                    sides = std::atoi(al_get_config_value(file, sectionName, entryName));
+                } else
+                {
+                    std::cerr << "Warning: Unknown key-pair for value at " << sectionName << "." << entryName << std::endl;
+                }
+
+                entryName = al_get_next_config_entry(&entry);
+            }
+
+            animList.emplace_front(state, start, sides);
+        }
+
+        sectionName = al_get_next_config_section(&section);
+    }
+
+    al_destroy_config(file);
+    return true;
 }
