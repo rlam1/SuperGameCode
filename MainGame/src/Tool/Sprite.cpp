@@ -37,13 +37,24 @@ Sprite::Sprite(std::string resLocation)
     columns = al_get_bitmap_width(sourceImage) / frameWidth;
     frames = rows * columns;
 
+    // Quick additional sanity check
+    for (auto &anim : animList)
+    {
+        if (anim.startRow <= 0 || anim.startRow > rows - 1)
+        {
+            std::cerr << "Warning: Animation out of bounds, will default to start at origin. " << resLocation << std::endl
+                << "         rows = " << rows << ", and animation wants to start at " << anim.startRow << std::endl;
+            anim.startRow = 0;
+        }
+    }
+
     printData();
 }
 
 Sprite::Sprite()
 {
 	sourceImage = nullptr;
-    GenErrorImage();
+    fallbackToDefaultADF("INTENTIONAL ERROR TRIGGER, DISREGARD ERROR");
 }
 
 
@@ -229,7 +240,7 @@ bool Sprite::parseADF(std::string resLoc)
                 if (entryName == entries[4])
                 {
                     start = std::atoi(al_get_config_value(file, sectionName, entryName));
-                } else if (entryName == entries[5])
+                } else if (entryName == entries[5]) // Sides bitfield
                 {
                     sides = std::atoi(al_get_config_value(file, sectionName, entryName));
                 } else
