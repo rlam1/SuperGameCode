@@ -83,7 +83,7 @@ void Sprite::Update()
 
 void Sprite::Render(float scX, float scY)
 {
-    al_draw_bitmap_region(sourceImage, curFrame * frameWidth, 2 * frameHeight, frameWidth, frameHeight, 100 + scX, 50 + scY, 0);
+    al_draw_bitmap_region(sourceImage, curFrame * frameWidth, 2 * frameHeight, frameWidth, frameHeight, scX, scY, 0);
 }
 
 void Sprite::printData()

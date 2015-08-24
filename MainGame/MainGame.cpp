@@ -151,7 +151,7 @@ void AppBody()
             /*
             Playable characters should draw on this position
             */
-            sprt.Render(x_offset, y_offset);
+            sprt.Render(100, 50);
             map.DrawLayerMap("Buildings");
             map.DrawLayerMap("Decoration");
 
