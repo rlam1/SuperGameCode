@@ -55,11 +55,11 @@ private:
 
     struct _animations {
         AnimState type;
-        int startCol;
+        int startRow;
         unsigned char sides;
 
-        _animations(AnimState _type, int _startCol, unsigned _sides) :
-            type(_type), startCol(_startCol), sides(_sides) {}
+        _animations(AnimState _type, int _startRow, unsigned _sides) :
+            type(_type), startRow(_startRow), sides(_sides) {}
     };
     std::forward_list<_animations> animList;
 
