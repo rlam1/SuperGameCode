@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "src\Tool\Init.h"
 #include "src\tilemap.h"
+#include "src\Tool\Sprite.h"
 
 ALLEGRO_DISPLAY     *display = nullptr;
 ALLEGRO_EVENT_QUEUE *queue = nullptr;
@@ -63,6 +64,8 @@ void AppBody()
     bool redraw = false;
 
     TileMap map("data/maps/test.tmx");
+    Sprite sprt("data/sprites/test.adf");
+    
     ALLEGRO_TRANSFORM camera;
 
     int x_offset = 0, y_offset = 0;
@@ -102,6 +105,7 @@ void AppBody()
                     if (y_offset > 0) y_offset = 0;
                 }
 
+                sprt.Update();
                 redraw = true;
                 break;
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
@@ -147,6 +151,7 @@ void AppBody()
             /*
             Playable characters should draw on this position
             */
+            sprt.Render(x_offset, y_offset);
             map.DrawLayerMap("Buildings");
             map.DrawLayerMap("Decoration");
 
