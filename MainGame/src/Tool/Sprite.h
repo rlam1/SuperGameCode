@@ -44,14 +44,18 @@ public:
 	Sprite();
 	virtual ~Sprite();
 
+    virtual void Update();
+    virtual void Render(float scX, float scY);
+
     void printData();
 
 private:
 	ALLEGRO_BITMAP *sourceImage;
     std::string sourceImgPath;
     int frameWidth, frameHeight;
-    int frameDelay;
     int rows, columns, frames;
+
+    int frameDelay, frameCount, curFrame;
 
     struct _animations {
         AnimState type;

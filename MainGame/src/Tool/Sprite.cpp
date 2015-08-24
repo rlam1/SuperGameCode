@@ -36,6 +36,7 @@ Sprite::Sprite(std::string resLocation)
     rows = al_get_bitmap_height(sourceImage) / frameHeight;
     columns = al_get_bitmap_width(sourceImage) / frameWidth;
     frames = rows * columns;
+    frameCount = 0;
 
     // Quick additional sanity check
     for (auto &anim : animList)
@@ -54,6 +55,7 @@ Sprite::Sprite(std::string resLocation)
 Sprite::Sprite()
 {
 	sourceImage = nullptr;
+    frameCount = 0;
     fallbackToDefaultADF("INTENTIONAL ERROR TRIGGER, DISREGARD ERROR");
 }
 
@@ -62,6 +64,26 @@ Sprite::~Sprite()
 {
 	al_destroy_bitmap(sourceImage);
     animList.clear();
+}
+
+void Sprite::Update()
+{
+    frameCount++;
+    if (frameCount >= frameDelay)
+    {
+        curFrame++;
+        if (curFrame >= columns)
+        {
+            curFrame = 0;
+        }
+
+        frameCount = 0;
+    }
+}
+
+void Sprite::Render(float scX, float scY)
+{
+    al_draw_bitmap_region(sourceImage, curFrame * frameWidth, 2 * frameHeight, frameWidth, frameHeight, 100 + scX, 50 + scY, 0);
 }
 
 void Sprite::printData()
