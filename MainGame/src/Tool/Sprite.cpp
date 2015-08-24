@@ -4,7 +4,7 @@
 #include <array>
 
 std::array<std::string, 8> sections = { "", "IDLE", "MOVE", "ATTACK0", "ATTACK1", "HARMED", "SPECIAL0", "SPECIAL1" };
-std::array<std::string, 6> entries = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startCol", "sides" };
+std::array<std::string, 6> entries = { "resPath", "frameWidth", "frameHeight", "frameDelay", "startRow", "sides" };
 
 std::ostream& operator << (std::ostream& os, const AnimState& obj)
 {
@@ -75,7 +75,7 @@ void Sprite::printData()
     for (const auto &anim : animList)
     {
         std::cout << std::endl << " Type=" << anim.type << std::endl
-            << "  Starting Column=" << anim.startCol << std::endl
+            << "  Starting Row=" << anim.startRow << std::endl
             << "  Active sides(BITFIELD)=" << (int)anim.sides << std::endl;
     }
 }
@@ -237,7 +237,7 @@ bool Sprite::parseADF(std::string resLoc)
             entryName = al_get_first_config_entry(file, sectionName, &entry);
             while (entry != nullptr)
             {
-                if (entryName == entries[4])
+                if (entryName == entries[4]) // Start Row
                 {
                     start = std::atoi(al_get_config_value(file, sectionName, entryName));
                 } else if (entryName == entries[5]) // Sides bitfield
