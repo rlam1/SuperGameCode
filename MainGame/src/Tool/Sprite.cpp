@@ -83,7 +83,31 @@ void Sprite::Update()
 
 void Sprite::Render(float scX, float scY)
 {
+    // TODO: ADD CHECK TO VERIFY SPRITESHEET ACTUALLY CONTAINS THE CURRENT DIRECTION
+    //       WE GUARANTEE THE ANIMSTATE IS VALID BUT NOT THE DIRECTION AT THIS POINT
     al_draw_bitmap_region(sourceImage, curFrame * frameWidth, 2 * frameHeight, frameWidth, frameHeight, scX, scY, 0);
+}
+
+void Sprite::SendNewState(AnimState state, AnimDir direction)
+{
+    curDir = direction;
+    
+    for (const auto &elem : animList)
+    {
+        if (elem.type == state)
+        {
+            curState = state;
+            break;
+        } else
+        {
+            curState = AnimState::IDLE;
+            std::cerr << "Warning: Spritesheet at " << sourceImgPath << " has no " << state << " animation defined!" << std::endl
+                << "         Defaulting to IDLE animation." << std::endl;
+        }
+    }
+
+    curFrame = 0;
+    frameCount = 0;
 }
 
 void Sprite::printData()

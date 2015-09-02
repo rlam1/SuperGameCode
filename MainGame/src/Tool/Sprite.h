@@ -1,9 +1,11 @@
 #pragma once
 #include "Init.h"
+#include "Bitfield.h"
 
 #include <forward_list>
+#include <algorithm>
 
-#include <type_traits>
+#include <type_traits> // Used to access raw number of enum class inside overloaded << operator
 
 /*
     Feature List
@@ -19,6 +21,13 @@
           where to put the frame on the world.
 */
 
+/*
+    TODO:
+        - Consider using a <map> instead of <forward_list> to store the
+          animation data, with the AnimState as key to facilitate finding
+          the instructions to render the character.
+*/
+
 enum class AnimState {
     IDLE = 1,
     MOVE,
@@ -31,7 +40,7 @@ enum class AnimState {
 
 std::ostream& operator << (std::ostream& os, const AnimState& obj);
 
-enum class AnimDir : unsigned char {
+enum class AnimDir {
     DOWN,
     UP,
     LEFT,
@@ -46,6 +55,7 @@ public:
 
     virtual void Update();
     virtual void Render(float scX, float scY);
+    virtual void SendNewState(AnimState state, AnimDir direction);
 
     void printData();
 
@@ -56,6 +66,8 @@ private:
     int rows, columns, frames;
 
     int frameDelay, frameCount, curFrame;
+    AnimState curState;
+    AnimDir curDir;
 
     struct _animations {
         AnimState type;
@@ -71,4 +83,3 @@ private:
     bool parseADF(std::string resLoc);
     void fallbackToDefaultADF(std::string resLoc);
 };  
-
