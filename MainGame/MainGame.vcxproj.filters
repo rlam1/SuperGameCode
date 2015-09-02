@@ -12,6 +12,9 @@
     <ClCompile Include="src\tilemap.cpp">
       <Filter>src\Tilemap</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tool\Bitfield.cpp">
+      <Filter>src\Tool</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -26,6 +29,9 @@
     </ClInclude>
     <ClInclude Include="src\tilemap.h">
       <Filter>src\Tilemap</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tool\Bitfield.h">
+      <Filter>src\Tool</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
