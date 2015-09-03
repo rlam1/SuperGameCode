@@ -56,7 +56,7 @@ Sprite::Sprite()
 {
 	sourceImage = nullptr;
     frameCount = 0;
-    fallbackToDefaultADF("INTENTIONAL ERROR TRIGGER, DISREGARD ERROR");
+    fallbackToDefaultADF("INTENTIONAL ERROR TRIGGER, DISREGARD THIS ERROR");
 }
 
 
@@ -85,26 +85,27 @@ void Sprite::Render(float scX, float scY)
 {
     // TODO: ADD CHECK TO VERIFY SPRITESHEET ACTUALLY CONTAINS THE CURRENT DIRECTION
     //       WE GUARANTEE THE ANIMSTATE IS VALID BUT NOT THE DIRECTION AT THIS POINT
+    
+
     al_draw_bitmap_region(sourceImage, curFrame * frameWidth, 2 * frameHeight, frameWidth, frameHeight, scX, scY, 0);
 }
 
 void Sprite::SendNewState(AnimState state, AnimDir direction)
 {
     curDir = direction;
-    
-    for (const auto &elem : animList)
+
+    try
     {
-        // HINT: This is now a map, could refactor to behave like one, not a linked list
-        if (elem.first == state)
-        {
-            curState = state;
-            break;
-        } else
-        {
-            curState = AnimState::IDLE;
-            std::cerr << "Warning: Spritesheet at " << sourceImgPath << " has no " << state << " animation defined!" << std::endl
-                << "         Defaulting to IDLE animation." << std::endl;
-        }
+        animList.at(state); //if this fails an exception is thrown, catched below
+        curState = state;
+    }
+
+    catch (std::out_of_range& e)
+    {
+        curState = AnimState::IDLE;
+        std::cerr << "Warning: Spritesheet at " << sourceImgPath << " has no " << state << " animation defined!" << std::endl
+            << "         Defaulting to IDLE animation." << std::endl
+            << "         Details: " << e.what() << std::endl;
     }
 
     curFrame = 0;
