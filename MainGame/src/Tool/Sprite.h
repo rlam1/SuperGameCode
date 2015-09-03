@@ -3,7 +3,6 @@
 #include "Bitfield.h"
 
 #include <unordered_map>
-#include <algorithm>
 
 #include <type_traits> // Used to access raw number of enum class inside overloaded << operator
 
@@ -64,7 +63,7 @@ private:
 
     struct _animations {
         int startRow;
-        unsigned char sides;
+        int sides;
 
         _animations(int _startRow, unsigned _sides) :
             startRow(_startRow), sides(_sides) {}
