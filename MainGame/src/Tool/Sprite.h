@@ -32,11 +32,18 @@ enum class AnimState {
 
 std::ostream& operator << (std::ostream& os, const AnimState& obj);
 
-enum class AnimDir {
+enum AnimDir {
     DOWN,
     UP,
     LEFT,
     RIGHT
+};
+
+enum _dirBits {
+    bDOWN = 1 << 0,
+    bUP = 1 << 1,
+    bLEFT = 1 << 2,
+    bRIGHT = 1 << 3
 };
 
 class Sprite {
@@ -67,9 +74,13 @@ private:
 
         _animations(int _startRow, unsigned _sides) :
             startRow(_startRow), sides(_sides) {}
+
+        _animations() :
+            startRow(0), sides(1) {}
     };
     std::unordered_map<AnimState, _animations> animList;
 
+    int animDirToBits(int animDir);
 	bool GenErrorImage();
     bool parseADF(std::string resLoc);
     void fallbackToDefaultADF(std::string resLoc);

@@ -64,7 +64,8 @@ void AppBody()
     bool redraw = false;
 
     TileMap map("data/maps/test.tmx");
-    Sprite sprt("data/sprites/test.adf");
+    Sprite sprt("data/sprites/demo.adf");
+    sprt.SendNewState(AnimState::IDLE, AnimDir::DOWN);
     
     ALLEGRO_TRANSFORM camera;
 
@@ -151,7 +152,7 @@ void AppBody()
             /*
             Playable characters should draw on this position
             */
-            sprt.Render(100, 50);
+            sprt.Render(100, 100);
             map.DrawLayerMap("Buildings");
             map.DrawLayerMap("Decoration");
 
