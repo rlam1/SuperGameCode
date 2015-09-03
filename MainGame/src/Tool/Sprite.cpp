@@ -37,11 +37,12 @@ Sprite::Sprite(std::string resLocation)
     columns = al_get_bitmap_width(sourceImage) / frameWidth;
     frames = rows * columns;
     frameCount = 0;
+    SendNewState(AnimState::IDLE, AnimDir::DOWN);
 
     // Quick additional sanity check
     for (auto &anim : animList)
     {
-        if (anim.second.startRow <= 0 || anim.second.startRow > rows - 1)
+        if (anim.second.startRow < 0 || anim.second.startRow > rows - 1)
         {
             std::cerr << "Warning: Animation out of bounds, will default to start at origin. " << resLocation << std::endl
                 << "         rows = " << rows << ", and animation wants to start at " << anim.second.startRow << std::endl;
@@ -56,6 +57,7 @@ Sprite::Sprite()
 {
 	sourceImage = nullptr;
     frameCount = 0;
+    SendNewState(AnimState::IDLE, AnimDir::DOWN);
     fallbackToDefaultADF("INTENTIONAL ERROR TRIGGER, DISREGARD THIS ERROR");
 }
 
@@ -83,11 +85,15 @@ void Sprite::Update()
 
 void Sprite::Render(float scX, float scY)
 {
-    // TODO: ADD CHECK TO VERIFY SPRITESHEET ACTUALLY CONTAINS THE CURRENT DIRECTION
-    //       WE GUARANTEE THE ANIMSTATE IS VALID BUT NOT THE DIRECTION AT THIS POINT
-    
+    // , imagePtr, sourceX, sourceY, SourceW, sourceH, destX, destY
 
-    al_draw_bitmap_region(sourceImage, curFrame * frameWidth, 2 * frameHeight, frameWidth, frameHeight, scX, scY, 0);
+    int drawRow = animList[curState].startRow;
+    if (Bitfield::test(animList[curState].sides, animDirToBits(curDir)) == true)
+    {
+        drawRow += curDir;
+    }
+
+    al_draw_bitmap_region(sourceImage, curFrame * frameWidth, drawRow * frameHeight, frameWidth, frameHeight, scX, scY, 0);
 }
 
 void Sprite::SendNewState(AnimState state, AnimDir direction)
@@ -126,6 +132,31 @@ void Sprite::printData()
             << "  Starting Row=" << anim.second.startRow << std::endl
             << "  Active sides(BITFIELD)=" << (int)anim.second.sides << std::endl;
     }
+}
+
+int Sprite::animDirToBits(int animDir)
+{
+    int val;
+    switch (animDir)
+    {
+        case DOWN:
+            val = bDOWN;
+            break;
+        case UP:
+            val = bUP;
+            break;
+        case LEFT:
+            val = bLEFT;
+            break;
+        case RIGHT:
+            val = bRIGHT;
+            break;
+        default:
+            val = 0;
+            break;
+    }
+
+    return val;
 }
 
 /*

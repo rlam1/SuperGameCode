@@ -1,0 +1,13 @@
+resPath=data/sprites/res/demo.png
+frameWidth=32
+frameHeight=64
+frameDelay=20
+
+[IDLE]
+startRow=0
+# Here, the full four side bits (0000 1111) are set. The other 4 are for future expansion.
+sides=15
+
+[MOVE]
+startRow=4
+sides=15
