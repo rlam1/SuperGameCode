@@ -2,7 +2,7 @@
 #include "Init.h"
 #include "Bitfield.h"
 
-#include <forward_list>
+#include <unordered_map>
 #include <algorithm>
 
 #include <type_traits> // Used to access raw number of enum class inside overloaded << operator
@@ -19,13 +19,6 @@
     - Upon request draws current animation frame
         - When it is time to draw the animation, it needs to know
           where to put the frame on the world.
-*/
-
-/*
-    TODO:
-        - Consider using a <map> instead of <forward_list> to store the
-          animation data, with the AnimState as key to facilitate finding
-          the instructions to render the character.
 */
 
 enum class AnimState {
@@ -70,14 +63,13 @@ private:
     AnimDir curDir;
 
     struct _animations {
-        AnimState type;
         int startRow;
         unsigned char sides;
 
-        _animations(AnimState _type, int _startRow, unsigned _sides) :
-            type(_type), startRow(_startRow), sides(_sides) {}
+        _animations(int _startRow, unsigned _sides) :
+            startRow(_startRow), sides(_sides) {}
     };
-    std::forward_list<_animations> animList;
+    std::unordered_map<AnimState, _animations> animList;
 
 	bool GenErrorImage();
     bool parseADF(std::string resLoc);
