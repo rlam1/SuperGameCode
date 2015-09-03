@@ -41,11 +41,11 @@ Sprite::Sprite(std::string resLocation)
     // Quick additional sanity check
     for (auto &anim : animList)
     {
-        if (anim.startRow <= 0 || anim.startRow > rows - 1)
+        if (anim.second.startRow <= 0 || anim.second.startRow > rows - 1)
         {
             std::cerr << "Warning: Animation out of bounds, will default to start at origin. " << resLocation << std::endl
-                << "         rows = " << rows << ", and animation wants to start at " << anim.startRow << std::endl;
-            anim.startRow = 0;
+                << "         rows = " << rows << ", and animation wants to start at " << anim.second.startRow << std::endl;
+            anim.second.startRow = 0;
         }
     }
 
@@ -94,7 +94,8 @@ void Sprite::SendNewState(AnimState state, AnimDir direction)
     
     for (const auto &elem : animList)
     {
-        if (elem.type == state)
+        // HINT: This is now a map, could refactor to behave like one, not a linked list
+        if (elem.first == state)
         {
             curState = state;
             break;
@@ -120,9 +121,9 @@ void Sprite::printData()
 
     for (const auto &anim : animList)
     {
-        std::cout << std::endl << " Type=" << anim.type << std::endl
-            << "  Starting Row=" << anim.startRow << std::endl
-            << "  Active sides(BITFIELD)=" << (int)anim.sides << std::endl;
+        std::cout << std::endl << " Type=" << anim.first << std::endl
+            << "  Starting Row=" << anim.second.startRow << std::endl
+            << "  Active sides(BITFIELD)=" << (int)anim.second.sides << std::endl;
     }
 }
 
@@ -185,7 +186,8 @@ void Sprite::fallbackToDefaultADF(std::string resLoc)
     columns = 30 / frameWidth;
     frames = rows * columns;
 
-    animList.emplace_front(AnimState::IDLE, 0, 1);
+    /*animList.emplace_front(AnimState::IDLE, 0, 1);*/
+    animList.emplace(AnimState::IDLE, _animations{ 0, 1 });
     return;
 }
 
@@ -297,7 +299,8 @@ bool Sprite::parseADF(std::string resLoc)
                 entryName = al_get_next_config_entry(&entry);
             }
 
-            animList.emplace_front(state, start, sides);
+            /*animList.emplace_front(state, start, sides);*/
+            animList.emplace(state, _animations{ start, sides });
         }
 
         sectionName = al_get_next_config_section(&section);
