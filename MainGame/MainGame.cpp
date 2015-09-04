@@ -63,7 +63,7 @@ void AppBody()
     bool done = false;
     bool redraw = false;
 
-    TileMap map("data/maps/test.tmx");
+    TileMap map("data/maps/test1.tmx");
     Sprite sprt("data/sprites/demo.adf");
     sprt.SendNewState(AnimState::IDLE, AnimDir::DOWN);
     
@@ -148,13 +148,13 @@ void AppBody()
             redraw = false;
             al_clear_to_color(styleConfig.colBackgroundColor);
 
-            map.DrawLayerMap("Terrain");
+            map.DrawLayerMap("Background");
+            map.DrawLayerMap("Foreground");
             /*
             Playable characters should draw on this position
             */
             sprt.Render(100, 100);
-            map.DrawLayerMap("Buildings");
-            map.DrawLayerMap("Decoration");
+            map.DrawLayerMap("Top");
 
             al_flip_display();
         }
