@@ -37,15 +37,16 @@ Sprite::Sprite(std::string resLocation)
     columns = al_get_bitmap_width(sourceImage) / frameWidth;
     frames = rows * columns;
     frameCount = 0;
+    SendNewState(AnimState::IDLE, AnimDir::DOWN);
 
     // Quick additional sanity check
     for (auto &anim : animList)
     {
-        if (anim.startRow <= 0 || anim.startRow > rows - 1)
+        if (anim.second.startRow < 0 || anim.second.startRow > rows - 1)
         {
             std::cerr << "Warning: Animation out of bounds, will default to start at origin. " << resLocation << std::endl
-                << "         rows = " << rows << ", and animation wants to start at " << anim.startRow << std::endl;
-            anim.startRow = 0;
+                << "         rows = " << rows << ", and animation wants to start at " << anim.second.startRow << std::endl;
+            anim.second.startRow = 0;
         }
     }
 
@@ -56,7 +57,8 @@ Sprite::Sprite()
 {
 	sourceImage = nullptr;
     frameCount = 0;
-    fallbackToDefaultADF("INTENTIONAL ERROR TRIGGER, DISREGARD ERROR");
+    SendNewState(AnimState::IDLE, AnimDir::DOWN);
+    fallbackToDefaultADF("INTENTIONAL ERROR TRIGGER, DISREGARD THIS ERROR");
 }
 
 
@@ -83,27 +85,33 @@ void Sprite::Update()
 
 void Sprite::Render(float scX, float scY)
 {
-    // TODO: ADD CHECK TO VERIFY SPRITESHEET ACTUALLY CONTAINS THE CURRENT DIRECTION
-    //       WE GUARANTEE THE ANIMSTATE IS VALID BUT NOT THE DIRECTION AT THIS POINT
-    al_draw_bitmap_region(sourceImage, curFrame * frameWidth, 2 * frameHeight, frameWidth, frameHeight, scX, scY, 0);
+    // , imagePtr, sourceX, sourceY, SourceW, sourceH, destX, destY
+
+    int drawRow = animList[curState].startRow;
+    if (Bitfield::test(animList[curState].sides, animDirToBits(curDir)) == true)
+    {
+        drawRow += curDir;
+    }
+
+    al_draw_bitmap_region(sourceImage, curFrame * frameWidth, drawRow * frameHeight, frameWidth, frameHeight, scX, scY, 0);
 }
 
 void Sprite::SendNewState(AnimState state, AnimDir direction)
 {
     curDir = direction;
-    
-    for (const auto &elem : animList)
+
+    try
     {
-        if (elem.type == state)
-        {
-            curState = state;
-            break;
-        } else
-        {
-            curState = AnimState::IDLE;
-            std::cerr << "Warning: Spritesheet at " << sourceImgPath << " has no " << state << " animation defined!" << std::endl
-                << "         Defaulting to IDLE animation." << std::endl;
-        }
+        animList.at(state); //if this fails an exception is thrown, catched below
+        curState = state;
+    }
+
+    catch (std::out_of_range& e)
+    {
+        curState = AnimState::IDLE;
+        std::cerr << "Warning: Spritesheet at " << sourceImgPath << " has no " << state << " animation defined!" << std::endl
+            << "         Defaulting to IDLE animation." << std::endl
+            << "         Details: " << e.what() << std::endl;
     }
 
     curFrame = 0;
@@ -120,10 +128,35 @@ void Sprite::printData()
 
     for (const auto &anim : animList)
     {
-        std::cout << std::endl << " Type=" << anim.type << std::endl
-            << "  Starting Row=" << anim.startRow << std::endl
-            << "  Active sides(BITFIELD)=" << (int)anim.sides << std::endl;
+        std::cout << std::endl << " Type=" << anim.first << std::endl
+            << "  Starting Row=" << anim.second.startRow << std::endl
+            << "  Active sides(BITFIELD)=" << (int)anim.second.sides << std::endl;
     }
+}
+
+int Sprite::animDirToBits(int animDir)
+{
+    int val;
+    switch (animDir)
+    {
+        case DOWN:
+            val = bDOWN;
+            break;
+        case UP:
+            val = bUP;
+            break;
+        case LEFT:
+            val = bLEFT;
+            break;
+        case RIGHT:
+            val = bRIGHT;
+            break;
+        default:
+            val = 0;
+            break;
+    }
+
+    return val;
 }
 
 /*
@@ -185,7 +218,8 @@ void Sprite::fallbackToDefaultADF(std::string resLoc)
     columns = 30 / frameWidth;
     frames = rows * columns;
 
-    animList.emplace_front(AnimState::IDLE, 0, 1);
+    /*animList.emplace_front(AnimState::IDLE, 0, 1);*/
+    animList.emplace(AnimState::IDLE, _animations{ 0, 1 });
     return;
 }
 
@@ -297,7 +331,8 @@ bool Sprite::parseADF(std::string resLoc)
                 entryName = al_get_next_config_entry(&entry);
             }
 
-            animList.emplace_front(state, start, sides);
+            /*animList.emplace_front(state, start, sides);*/
+            animList.emplace(state, _animations{ start, sides });
         }
 
         sectionName = al_get_next_config_section(&section);

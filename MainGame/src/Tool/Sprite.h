@@ -2,8 +2,7 @@
 #include "Init.h"
 #include "Bitfield.h"
 
-#include <forward_list>
-#include <algorithm>
+#include <unordered_map>
 
 #include <type_traits> // Used to access raw number of enum class inside overloaded << operator
 
@@ -21,13 +20,6 @@
           where to put the frame on the world.
 */
 
-/*
-    TODO:
-        - Consider using a <map> instead of <forward_list> to store the
-          animation data, with the AnimState as key to facilitate finding
-          the instructions to render the character.
-*/
-
 enum class AnimState {
     IDLE = 1,
     MOVE,
@@ -40,11 +32,18 @@ enum class AnimState {
 
 std::ostream& operator << (std::ostream& os, const AnimState& obj);
 
-enum class AnimDir {
+enum AnimDir {
     DOWN,
     UP,
     LEFT,
     RIGHT
+};
+
+enum _dirBits {
+    bDOWN = 1 << 0,
+    bUP = 1 << 1,
+    bLEFT = 1 << 2,
+    bRIGHT = 1 << 3
 };
 
 class Sprite {
@@ -70,15 +69,18 @@ private:
     AnimDir curDir;
 
     struct _animations {
-        AnimState type;
         int startRow;
-        unsigned char sides;
+        int sides;
 
-        _animations(AnimState _type, int _startRow, unsigned _sides) :
-            type(_type), startRow(_startRow), sides(_sides) {}
+        _animations(int _startRow, unsigned _sides) :
+            startRow(_startRow), sides(_sides) {}
+
+        _animations() :
+            startRow(0), sides(1) {}
     };
-    std::forward_list<_animations> animList;
+    std::unordered_map<AnimState, _animations> animList;
 
+    int animDirToBits(int animDir);
 	bool GenErrorImage();
     bool parseADF(std::string resLoc);
     void fallbackToDefaultADF(std::string resLoc);
