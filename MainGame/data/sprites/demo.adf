@@ -1,7 +1,7 @@
 resPath=data/sprites/res/demo.png
 frameWidth=32
 frameHeight=64
-frameDelay=20
+frameDelay=10
 
 [IDLE]
 startRow=0

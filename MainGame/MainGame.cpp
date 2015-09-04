@@ -70,8 +70,9 @@ void AppBody()
     ALLEGRO_TRANSFORM camera;
 
     int x_offset = 0, y_offset = 0;
+    int playX = 100, playY = 100;
     int x_delta, y_delta;
-    int key_state[2] = { 0, 0 };
+    int key_state[4] = { 0, 0, 0, 0 };
 
     x_delta = applicationConfig.iDispW - al_get_bitmap_width(map.GetFullMap());
     y_delta = applicationConfig.iDispH - al_get_bitmap_height(map.GetFullMap());
@@ -89,6 +90,9 @@ void AppBody()
 
                 x_offset += key_state[0];
                 y_offset += key_state[1];
+                playX += key_state[2];
+                playY += key_state[3];
+
                 if (x_delta > 0)
                 {
                     x_offset = x_delta / 2;
@@ -124,6 +128,23 @@ void AppBody()
                     case ALLEGRO_KEY_RIGHT: key_state[0] = -4; break;
                     case ALLEGRO_KEY_UP:    key_state[1] = 4; break;
                     case ALLEGRO_KEY_DOWN:  key_state[1] = -4; break;
+
+                    case ALLEGRO_KEY_A:     
+                        key_state[2] = -2;
+                        sprt.SendNewState(AnimState::MOVE, AnimDir::LEFT);
+                        break;
+                    case ALLEGRO_KEY_D:     
+                        key_state[2] = 2;
+                        sprt.SendNewState(AnimState::MOVE, AnimDir::RIGHT);
+                        break;
+                    case ALLEGRO_KEY_W:     
+                        key_state[3] = -2;
+                        sprt.SendNewState(AnimState::MOVE, AnimDir::UP);
+                        break;
+                    case ALLEGRO_KEY_S:     
+                        key_state[3] = 2;
+                        sprt.SendNewState(AnimState::MOVE, AnimDir::DOWN);
+                        break;
                 }
 
                 break;
@@ -134,6 +155,23 @@ void AppBody()
                     case ALLEGRO_KEY_RIGHT: key_state[0] = 0; break;
                     case ALLEGRO_KEY_UP:
                     case ALLEGRO_KEY_DOWN:  key_state[1] = 0; break;
+
+                    case ALLEGRO_KEY_A:     
+                        key_state[2] = 0;
+                        sprt.SendNewState(AnimState::IDLE, AnimDir::LEFT);
+                        break;
+                    case ALLEGRO_KEY_D:  
+                        key_state[2] = 0;
+                        sprt.SendNewState(AnimState::IDLE, AnimDir::RIGHT);
+                        break;
+                    case ALLEGRO_KEY_W: 
+                        key_state[3] = 0;
+                        sprt.SendNewState(AnimState::IDLE, AnimDir::UP);
+                        break;
+                    case ALLEGRO_KEY_S:     
+                        key_state[3] = 0;
+                        sprt.SendNewState(AnimState::IDLE, AnimDir::DOWN);
+                        break;
                 }
                 break;
             default:
@@ -153,7 +191,7 @@ void AppBody()
             /*
             Playable characters should draw on this position
             */
-            sprt.Render(100, 100);
+            sprt.Render(playX, playY);
             map.DrawLayerMap("Top");
 
             al_flip_display();
