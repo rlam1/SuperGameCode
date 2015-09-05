@@ -70,7 +70,7 @@ void AppBody()
     ALLEGRO_TRANSFORM camera;
 
     int x_offset = 0, y_offset = 0;
-    int playX = 100, playY = 100;
+    int playX = 0, playY = 0;  // start roughtly at tile [6, 4] maybe...
     int x_delta, y_delta;
     int key_state[4] = { 0, 0, 0, 0 };
 
@@ -90,8 +90,6 @@ void AppBody()
 
                 x_offset += key_state[0];
                 y_offset += key_state[1];
-                playX += key_state[2];
-                playY += key_state[3];
 
                 if (x_delta > 0)
                 {
@@ -108,6 +106,20 @@ void AppBody()
                 {
                     if (y_offset < y_delta) y_offset = y_delta;
                     if (y_offset > 0) y_offset = 0;
+                }
+
+                int playTileX, playTileY;
+                playTileX = playX / 32;
+                playTileY = (playY + 32) / 32;
+
+                if (map.CanWalktoTileAt(playTileX, playTileY))
+                {
+                    playX += key_state[2];
+                    playY += key_state[3];
+                } else
+                {
+                    playX -= key_state[2];
+                    playY -= key_state[3];
                 }
 
                 sprt.Update();

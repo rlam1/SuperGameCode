@@ -6,14 +6,14 @@
     <ClCompile Include="src\Tool\Init.cpp">
       <Filter>src\Tool</Filter>
     </ClCompile>
-    <ClCompile Include="src\Tool\Sprite.cpp">
-      <Filter>src\Tool</Filter>
-    </ClCompile>
     <ClCompile Include="src\tilemap.cpp">
-      <Filter>src\Tilemap</Filter>
+      <Filter>src\Tool\Tilemap</Filter>
     </ClCompile>
     <ClCompile Include="src\Tool\Bitfield.cpp">
-      <Filter>src\Tool</Filter>
+      <Filter>src\Tool\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tool\Sprite.cpp">
+      <Filter>src\Tool\Sprite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -21,17 +21,17 @@
     <ClInclude Include="src\Tool\Init.h">
       <Filter>src\Tool</Filter>
     </ClInclude>
-    <ClInclude Include="src\Tool\Sprite.h">
-      <Filter>src\Tool</Filter>
-    </ClInclude>
     <ClInclude Include="src\Tool\Vec.h">
       <Filter>src\Tool</Filter>
     </ClInclude>
     <ClInclude Include="src\tilemap.h">
-      <Filter>src\Tilemap</Filter>
+      <Filter>src\Tool\Tilemap</Filter>
     </ClInclude>
     <ClInclude Include="src\Tool\Bitfield.h">
-      <Filter>src\Tool</Filter>
+      <Filter>src\Tool\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tool\Sprite.h">
+      <Filter>src\Tool\Sprite</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -41,7 +41,10 @@
     <Filter Include="src\Tool">
       <UniqueIdentifier>{e3d53646-6c11-42e3-9695-2cfc5132f2fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Tilemap">
+    <Filter Include="src\Tool\Sprite">
+      <UniqueIdentifier>{4084240b-d38d-4eb4-b2c7-cf5fadc56844}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Tool\Tilemap">
       <UniqueIdentifier>{51176ea2-0f4b-433c-97fb-770808ae1e9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
