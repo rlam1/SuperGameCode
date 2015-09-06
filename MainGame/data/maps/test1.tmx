@@ -402,6 +402,11 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
+  <tile id="223">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
   <tile id="225">
    <properties>
     <property name="canWalk" value="0"/>
@@ -453,6 +458,16 @@
    </properties>
   </tile>
   <tile id="236">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="238">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="239">
    <properties>
     <property name="canWalk" value="0"/>
    </properties>
@@ -512,6 +527,16 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
+  <tile id="253">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="254">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
   <tile id="255">
    <properties>
     <property name="canWalk" value="0"/>
@@ -553,6 +578,16 @@
    </properties>
   </tile>
   <tile id="266">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="268">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="269">
    <properties>
     <property name="canWalk" value="0"/>
    </properties>
@@ -602,6 +637,11 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
+  <tile id="284">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
   <tile id="285">
    <properties>
     <property name="canWalk" value="0"/>
@@ -647,6 +687,11 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
+  <tile id="299">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
   <tile id="300">
    <properties>
     <property name="canWalk" value="0"/>
@@ -668,6 +713,11 @@
    </properties>
   </tile>
   <tile id="304">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="314">
    <properties>
     <property name="canWalk" value="0"/>
    </properties>
