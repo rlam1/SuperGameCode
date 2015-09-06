@@ -91,7 +91,8 @@ bool TileMap::CanWalktoTileAt(int x, int y)
         return false;
     }
 
-    int value = walkTable[(y * map->/*height*/width) + x];
+    // arrayPosition = (y * numberOfColumns) + x
+    int value = walkTable[(y * map->width) + x];
     return value > 0 ? true : false;
 }
 

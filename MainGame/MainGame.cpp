@@ -70,9 +70,10 @@ void AppBody()
     ALLEGRO_TRANSFORM camera;
 
     int x_offset = 0, y_offset = 0;
-    int playX = 0, playY = 0;  // start roughtly at tile [6, 4] maybe...
     int x_delta, y_delta;
     int key_state[4] = { 0, 0, 0, 0 };
+    Vec2D playerPos{ 0, 0 };
+    Vec2D oldPos{ 0, 0 };
 
     x_delta = applicationConfig.iDispW - al_get_bitmap_width(map.GetFullMap());
     y_delta = applicationConfig.iDispH - al_get_bitmap_height(map.GetFullMap());
@@ -109,17 +110,17 @@ void AppBody()
                 }
 
                 int playTileX, playTileY;
-                playTileX = playX / 32;
-                playTileY = (playY + 32) / 32;
+                playTileX = playerPos.x / 32;
+                playTileY = (playerPos.y + 32) / 32;
+                oldPos = playerPos + 2;
 
                 if (map.CanWalktoTileAt(playTileX, playTileY))
                 {
-                    playX += key_state[2];
-                    playY += key_state[3];
+                    playerPos.x += key_state[2];
+                    playerPos.y += key_state[3];
                 } else
                 {
-                    playX -= key_state[2];
-                    playY -= key_state[3];
+                    playerPos = oldPos;
                 }
 
                 sprt.Update();
@@ -203,7 +204,7 @@ void AppBody()
             /*
             Playable characters should draw on this position
             */
-            sprt.Render(playX, playY);
+            sprt.Render(playerPos.x, playerPos.y);
             map.DrawLayerMap("Top");
 
             al_flip_display();
