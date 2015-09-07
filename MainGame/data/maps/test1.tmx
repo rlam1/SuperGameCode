@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="Village" tilewidth="32" tileheight="32">
   <image source="../tilesets/adventuretiles_exterior.png" width="480" height="864"/>
   <tile id="14">
@@ -442,26 +442,6 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
-  <tile id="233">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="234">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="235">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="236">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
   <tile id="238">
    <properties>
     <property name="canWalk" value="0"/>
@@ -747,26 +727,6 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
-  <tile id="335">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="336">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="337">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="338">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
   <tile id="345">
    <properties>
     <property name="canWalk" value="0"/>
@@ -1013,19 +973,19 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Background" width="25" height="19">
+ <layer name="Background" width="30" height="25">
   <data encoding="base64" compression="zlib">
-   eJy1VMsOgzAMC2O7r6P3Mfj/f1wrEclYfaSFHiykNnESU2cTka0T74A94HOBo4Qp4Dm4hs7gA35U+3FgvqkGzxDP3YEr86lOzIP68Xw5ntzMOkPEC+K0rqNz5qvF491OcPRVoIYcF+ddEnkO7lcDtC/MRT2/hdya3grszXfkW/5pT1+tb+9ub7JP/CD+0XsG+Wteb9k7GKv8Fq+rl0u9TJJ++87AjzV4X8xy1oQ9u4rtjaKm7G2th7vGG3lzOqV2UKsmfyBhMrQ=
+   eJzFVssSgyAMxGLv0nqv1f//x+KMmdluUyAU6mFHh0c2CcnC6pxbKzFFbBG3H2xYMUSMJ/BKrHPEk/y5HPAdeTnWfTwcaJ0HyTHbxtxzHiy2v+VLYt1xhXXiS6BxDcxRYkPmNkKgL44Hmscz4b17ru6KrQDzSyXEf7SH5/NI7K05PwHGMDeyqdUIwjf0P1XzfH49dYZrBuujFy/28b94kZP5SvJs0VlcO7rPvrbwTgXrBqf3oaYT+C3hZS307j2frDPLAdQb9iEVB+eLNRN1VPiwD1FvxAdt3Up7eG0Kub63vEuk/1rUvMXWmbwtetz6DhPe3P2dA9afJc98p2s6pN33/F/67knduzVgzhe9lFAb
   </data>
  </layer>
- <layer name="Foreground" width="25" height="19">
+ <layer name="Foreground" width="30" height="25">
   <data encoding="base64" compression="zlib">
-   eJzV00tOwkAcx/HpAYSlAsGlPAIn8CgIuFZAtyRseK4F5Ao81Z2iPHYox4EToN9JINSG0oESHr/kkzbtzP/fdjpCWMerCXGGGecTTBXmqCYzP4a0/9d/V4x12uyj0uPSRg+h2COMLONyyKOAIkq6uXU00EQLEdwgiuv5OLkecl0chp6LPHG9jAqqeEZNN/YdH+ji0+R9UnjAo/krr80I3/jBeMsaZrnbcb1VSe+oTsZwTNqodY/EhnNO6VvJ6P/3Y8hi3c7ZPxdwwQ2Ptrwn00YHL3jF2xa9rqjpgx8BBA37+ws99DHA0KKenX9NNbKH1ZrFEMftHp7nUP3Xfes/KtQtqw==
+   eJzt1EtOwlAYhuHTBQBDLkaGgARWwFJEYMx9asIEVMaguAXlPlO56AxwObAC9G0C4ZKWFjmAJHzJk5Jy+n8Np0UI41wqQlgw5fMYExPX7JLc7BhQVs//aKy17aHbTK9bcq8w2RtEnnUF3OEeDygqGouX8oJXVFHDNcK4QWh2rbq/6j5bdWaVOF/GI55QwbNB7xve8YGOzpo0MshuHrVVBhhihG+Jc/USP0CHVm4lzcmtHVOS5s6TQFLCnFP/ndUsv3unlPmzYeedd8AJFy6UxXdq6migiRbakvo99HjhwxX8a/89XfTQxye+/tAh+7nfptfouYggitiB7slMjnVPx9qnc875D/kF/Qctqw==
   </data>
  </layer>
- <layer name="Top" width="25" height="19">
+ <layer name="Top" width="30" height="25">
   <data encoding="base64" compression="zlib">
-   eJzt1L1OAkEYheHZjh+vBQRqEKwRNeG3RoUaAW8BAdFOQNAbArVHoEegVzThbTbZbILDDDQYTvJU++U7m8zsCrG9xA0hEkgihTQyxup5D7w4VOjIsu8Cl7hCDnlLRwW3qKKGIEI4UugosO8aRZRQxo2l4xFNtNBGFCeIKXTss/vpoY9XvOFdMq9z3wf4wBAjjCXzOvd9gk9MMcNcMq9z37/wjQV+8Gt7XscdGrjHg8JuMw6+USdccOPA9u95QgddPONljZ2yM/PBj4DG+5qRnVkYERxv0C87s1Oc4Vyxf1v5q/+/ZAmamS7C
+   eJzt1LtSAjEYhuGlA+FaQKEWgVpBZjjWyKHmILfgAZAOENAbArRXtBelR2SGt6HZWQyJa8Pkm3mqzeb7iySGYV8SDsNIIoU0Msg65PbwwodDiX9ydFwgjwKKKAl6r3CNG9ziGEGcSPSW6aigihouURf0dtBFD/c4xRmiEr06OrtkhDEmeMKzYL3K3bPKC14xxRveBetV7p5VPjDDJ74wF6y36+4t8I0lfrAyfW+giRbu0P5j3yZO3hoXDuCGx/T29DHAEA94VOwRnYsj+BFQ3H9bROcihDAiNs8kOhcxnCMuOdN/5reZdHR09itrpfYuwg==
   </data>
  </layer>
 </map>
