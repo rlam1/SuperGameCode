@@ -57,9 +57,6 @@ bool Init()
 
 void AppBody()
 {
-    //tmx_img_load_func = al_img_loader2;
-    //tmx_img_free_func = (void(*)(void*))al_destroy_bitmap;
-
     bool done = false;
     bool redraw = false;
 
@@ -71,12 +68,13 @@ void AppBody()
 
     int x_offset = 0, y_offset = 0;
     int x_delta, y_delta;
-    int key_state[4] = { 0, 0, 0, 0 };
-    Vec2D playerPos{ 0, 0 };
-    Vec2D oldPos{ 0, 0 };
+    int key_state[2] = { 0, 0 };
 
     x_delta = applicationConfig.iDispW - al_get_bitmap_width(map.GetFullMap());
     y_delta = applicationConfig.iDispH - al_get_bitmap_height(map.GetFullMap());
+
+    Vec2D playerPos{ 0, 0 };
+    Vec2D playerVel{ 0, 0 };
 
     al_start_timer(timer);
     while (!done)
@@ -112,15 +110,13 @@ void AppBody()
                 int playTileX, playTileY;
                 playTileX = playerPos.x / 32;
                 playTileY = (playerPos.y + 32) / 32;
-                oldPos = playerPos + 2;
 
                 if (map.CanWalktoTileAt(playTileX, playTileY))
                 {
-                    playerPos.x += key_state[2];
-                    playerPos.y += key_state[3];
+                    playerPos = playerPos + playerVel;
                 } else
                 {
-                    playerPos = oldPos;
+                    playerPos = playerPos - playerVel;
                 }
 
                 sprt.Update();
@@ -143,19 +139,19 @@ void AppBody()
                     case ALLEGRO_KEY_DOWN:  key_state[1] = -4; break;
 
                     case ALLEGRO_KEY_A:     
-                        key_state[2] = -2;
+                        playerVel.x = -2;
                         sprt.SendNewState(AnimState::MOVE, AnimDir::LEFT);
                         break;
                     case ALLEGRO_KEY_D:     
-                        key_state[2] = 2;
+                        playerVel.x = 2;
                         sprt.SendNewState(AnimState::MOVE, AnimDir::RIGHT);
                         break;
                     case ALLEGRO_KEY_W:     
-                        key_state[3] = -2;
+                        playerVel.y = -2;
                         sprt.SendNewState(AnimState::MOVE, AnimDir::UP);
                         break;
                     case ALLEGRO_KEY_S:     
-                        key_state[3] = 2;
+                        playerVel.y = 2;
                         sprt.SendNewState(AnimState::MOVE, AnimDir::DOWN);
                         break;
                 }
@@ -170,19 +166,19 @@ void AppBody()
                     case ALLEGRO_KEY_DOWN:  key_state[1] = 0; break;
 
                     case ALLEGRO_KEY_A:     
-                        key_state[2] = 0;
+                        playerVel.x = 0;
                         sprt.SendNewState(AnimState::IDLE, AnimDir::LEFT);
                         break;
                     case ALLEGRO_KEY_D:  
-                        key_state[2] = 0;
+                        playerVel.x = 0;
                         sprt.SendNewState(AnimState::IDLE, AnimDir::RIGHT);
                         break;
                     case ALLEGRO_KEY_W: 
-                        key_state[3] = 0;
+                        playerVel.y = 0;
                         sprt.SendNewState(AnimState::IDLE, AnimDir::UP);
                         break;
                     case ALLEGRO_KEY_S:     
-                        key_state[3] = 0;
+                        playerVel.y = 0;
                         sprt.SendNewState(AnimState::IDLE, AnimDir::DOWN);
                         break;
                 }
