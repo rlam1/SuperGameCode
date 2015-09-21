@@ -108,15 +108,23 @@ void AppBody()
                 }
 
                 int playTileX, playTileY;
-                playTileX = playerPos.x / 32;
+                playTileX = playerPos.x / 32;  // 32 is the current tile size (32x32)
                 playTileY = (playerPos.y + 32) / 32;
 
-                if (map.CanWalktoTileAt(playTileX, playTileY))
+                if (map.CanWalktoTileAt(playTileX, playTileY) == true)
                 {
                     playerPos = playerPos + playerVel;
                 } else
                 {
-                    playerPos = playerPos - playerVel;
+					Vec2D backtracing = playerVel;
+					playerVel = { 0, 0 }; // we delete player velocitity to stop oscillating in place during collision.
+
+					while (map.CanWalktoTileAt(playTileX, playTileY) == false)
+					{
+						playerPos = playerPos - backtracing;
+						playTileX = playerPos.x / 32;  // 32 is the current tile size (32x32)
+						playTileY = (playerPos.y + 32) / 32;
+					}
                 }
 
                 sprt.Update();
