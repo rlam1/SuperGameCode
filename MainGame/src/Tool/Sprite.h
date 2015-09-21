@@ -56,6 +56,8 @@ public:
     virtual void Render(float scX, float scY);
     virtual void SendNewState(AnimState state, AnimDir direction);
 
+	const Vec2D GetSize();
+
     void printData();
 
 private:

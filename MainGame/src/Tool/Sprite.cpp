@@ -118,6 +118,10 @@ void Sprite::SendNewState(AnimState state, AnimDir direction)
     frameCount = 0;
 }
 
+const Vec2D Sprite::GetSize(){
+	return Vec2D(frameWidth, frameHeight);
+}
+
 void Sprite::printData()
 {
     std::cout << "****************SPRITE DATA DUMP****************" << std::endl
