@@ -84,50 +84,59 @@ void TileMap::DrawLayerMap(std::string LayerName)
 
 bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
 {
-	float tileW = map->tile_width;
-	float tileH = map->tile_height;
-	float x = (pixCoord.x + offset.x) / tileW;
-	float y = (pixCoord.y + offset.y) / tileH;
+    float tileW = map->tile_width;
+    float tileH = map->tile_height;
+    float x = (pixCoord.x + offset.x) / tileW;
+    float y = (pixCoord.y + offset.y) / tileH;
+    float w = ((pixSize.x - offset.x) / tileW) + x;
+    float h = ((pixSize.y - offset.y) / tileH) + y;
 
-    unsigned int range = (int)x * (int)y;
-    if (range > ((map->height * map->width) - 1))
+    unsigned int range = (int)x * (int)y, range2 = (int)w * (int)h;
+    if ((range || range2) > ((map->height * map->width) - 1))
     {
-        std::cerr << "Warning: Tile outside range: (" << (int)x << "," << (int)y << ")" <<std::endl;
+        std::cerr << "Warning: Tile outside range: (" << (int)x << "," << (int)y << ")" <<
+            " or (" << (int)w << "," << (int)h << ")" << std::endl;
         return false;
     }
 
     // arrayPosition = (y * numberOfColumns) + x
-    int value = walkTable[((int)y * map->width) + (int)x];
-	if (value > 0) // If its 0 or less (unlikely) you cannot walk, anything else is ok
-	{
-		return true; // can walk
-	}
-	else
-	{
+    // If its 0 you cannot walk, anything else is ok
+    // int value = walkTable[ (y * map->width) + x ];
 
-		/*public bool intersects(aabb other)
-		{
-			if (this.max.x < other.min.x ||
-				this.max.y < other.min.y ||
-				this.min.x > other.max.x ||
-				this.min.y > other.max.y)
-			{
-				return false;
-			}
-			return true;
-		}*/
+    /*
+     We find tile walkability in each of the four point of the character hitbox.
+     */
+    int canWalkatPoint[4] = {1, 1, 1, 1};
+    canWalkatPoint[0] = walkTable[((int)y * map->width) + (int)x]; // (x, y);
+    canWalkatPoint[1] = walkTable[((int)y * map->width) + (int)w]; // (w, y);
+    canWalkatPoint[2] = walkTable[((int)h * map->width) + (int)x]; // (x, h);
+    canWalkatPoint[3] = walkTable[((int)h * map->width) + (int)w]; // (w, h);
 
-		Vec2D tilePos = { x * tileW, y * tileH };
-		Vec2D tileSize = { (x * tileW) + tileW, (y * tileH) + tileH };
-		if (tileSize.x < pixCoord.x ||
-			tileSize.y < pixCoord.y ||
-			tilePos.x > pixSize.x ||
-			tilePos.y > pixSize.y)
-		{
-			return false;
-		}
-		return true;
-	}
+    if (canWalkatPoint[0] == 0 ||
+        canWalkatPoint[1] == 0 ||
+        canWalkatPoint[2] == 0 ||
+        canWalkatPoint[3] == 0) // == false (aka 0)
+    {
+        return false;
+    } else
+    {
+        return true;
+    }
+
+    //else
+    //{
+    //	// AABB Algorithm check
+    //	Vec2D tilePos = { x * tileW, y * tileH };
+    //	Vec2D tileSize = { (x * tileW) + tileW, (y * tileH) + tileH };
+    //	if (tileSize.x < pixCoord.x ||
+    //		tileSize.y < pixCoord.y ||
+    //		tilePos.x > pixSize.x ||
+    //		tilePos.y > pixSize.y)
+    //	{
+    //		return false;
+    //	}
+    //	return true;
+    //}
 }
 
 ALLEGRO_COLOR TileMap::int_to_al_color(int color)
