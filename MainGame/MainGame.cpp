@@ -107,11 +107,7 @@ void AppBody()
                     if (y_offset > 0) y_offset = 0;
                 }
 
-                int playTileX, playTileY;
-                playTileX = playerPos.x / 32;  // 32 is the current tile size (32x32)
-                playTileY = (playerPos.y + 32) / 32;
-
-                if (map.CanWalktoTileAt(playTileX, playTileY) == true)
+				if (map.CanWalktoTileAt(playerPos, sprt.GetSize(), { 0.0f, 32.0f }) == true)
                 {
                     playerPos = playerPos + playerVel;
                 } else
@@ -119,11 +115,9 @@ void AppBody()
 					Vec2D backtracing = playerVel;
 					playerVel = { 0, 0 }; // we delete player velocitity to stop oscillating in place during collision.
 
-					while (map.CanWalktoTileAt(playTileX, playTileY) == false)
+					while (map.CanWalktoTileAt(playerPos, sprt.GetSize(), { 0.0f, 32.0f }) == false)
 					{
 						playerPos = playerPos - backtracing;
-						playTileX = playerPos.x / 32;  // 32 is the current tile size (32x32)
-						playTileY = (playerPos.y + 32) / 32;
 					}
                 }
 
@@ -173,19 +167,19 @@ void AppBody()
                     case ALLEGRO_KEY_UP:
                     case ALLEGRO_KEY_DOWN:  key_state[1] = 0; break;
 
-                    case ALLEGRO_KEY_A:     
+                    case ALLEGRO_KEY_A:
                         playerVel.x = 0;
                         sprt.SendNewState(AnimState::IDLE, AnimDir::LEFT);
                         break;
-                    case ALLEGRO_KEY_D:  
+                    case ALLEGRO_KEY_D:
                         playerVel.x = 0;
                         sprt.SendNewState(AnimState::IDLE, AnimDir::RIGHT);
                         break;
-                    case ALLEGRO_KEY_W: 
+                    case ALLEGRO_KEY_W:
                         playerVel.y = 0;
                         sprt.SendNewState(AnimState::IDLE, AnimDir::UP);
                         break;
-                    case ALLEGRO_KEY_S:     
+                    case ALLEGRO_KEY_S:
                         playerVel.y = 0;
                         sprt.SendNewState(AnimState::IDLE, AnimDir::DOWN);
                         break;

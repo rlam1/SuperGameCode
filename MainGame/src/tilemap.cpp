@@ -82,18 +82,42 @@ void TileMap::DrawLayerMap(std::string LayerName)
     }
 }
 
-bool TileMap::CanWalktoTileAt(int x, int y)
+bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
 {
-    unsigned int range = x * y;
+	float x = (pixCoord.x + offset.x) / (float)map->tile_width;
+	float y = (pixCoord.y + offset.y) / (float)map->tile_height;
+
+    unsigned int range = (int)x * (int)y;
     if (range > ((map->height * map->width) - 1))
     {
-        std::cerr << "Warning: Tile outside range: (" << x << "," << y << ")" <<std::endl;
+        std::cerr << "Warning: Tile outside range: (" << (int)x << "," << (int)y << ")" <<std::endl;
         return false;
     }
 
     // arrayPosition = (y * numberOfColumns) + x
-    int value = walkTable[(y * map->width) + x];
-    return value > 0 ? true : false;
+    int value = walkTable[((int)y * map->width) + (int)x];
+	if (value > 0) // If its 0 or less (unlikely) you cannot walk, anything else is ok
+	{
+		return true; // can walk
+	}
+	else
+	{
+
+		/*public bool intersects(aabb other)
+		{
+			if (this.max.x < other.min.x ||
+				this.max.y < other.min.y ||
+				this.min.x > other.max.x ||
+				this.min.y > other.max.y)
+			{
+				return false;
+			}
+			return true;
+		}*/
+
+
+		return false;
+	}
 }
 
 ALLEGRO_COLOR TileMap::int_to_al_color(int color)
