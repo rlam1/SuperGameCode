@@ -84,8 +84,10 @@ void TileMap::DrawLayerMap(std::string LayerName)
 
 bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
 {
-	float x = (pixCoord.x + offset.x) / (float)map->tile_width;
-	float y = (pixCoord.y + offset.y) / (float)map->tile_height;
+	float tileW = map->tile_width;
+	float tileH = map->tile_height;
+	float x = (pixCoord.x + offset.x) / tileW;
+	float y = (pixCoord.y + offset.y) / tileH;
 
     unsigned int range = (int)x * (int)y;
     if (range > ((map->height * map->width) - 1))
@@ -115,8 +117,16 @@ bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
 			return true;
 		}*/
 
-
-		return false;
+		Vec2D tilePos = { x * tileW, y * tileH };
+		Vec2D tileSize = { (x * tileW) + tileW, (y * tileH) + tileH };
+		if (tileSize.x < pixCoord.x ||
+			tileSize.y < pixCoord.y ||
+			tilePos.x > pixSize.x ||
+			tilePos.y > pixSize.y)
+		{
+			return false;
+		}
+		return true;
 	}
 }
 
