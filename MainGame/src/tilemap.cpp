@@ -19,7 +19,7 @@ void* al_img_loader2(const char* path)
 
     al_destroy_path(alpath);
 
-    return (void*) res;
+    return (void*)res;
 }
 
 TileMap::TileMap(std::string path)
@@ -33,7 +33,7 @@ TileMap::TileMap(std::string path)
         std::cerr << tmx_strerr() << std::endl;
         return;
     }
-    
+
     int bmpWidth = map->tile_width * map->width;
     int bmpHeight = map->tile_height * map->height;
     fullMap = al_create_bitmap(bmpWidth, bmpHeight);
@@ -59,7 +59,7 @@ TileMap::~TileMap()
 {
     tmx_map_free(map);
     al_destroy_bitmap(fullMap);
-    delete [] walkTable;
+    delete[] walkTable;
 }
 
 ALLEGRO_BITMAP* TileMap::GetFullMap()
@@ -136,7 +136,7 @@ ALLEGRO_COLOR TileMap::int_to_al_color(int color)
 
     r = (color >> 16) & 0xFF;
     g = (color >> 8) & 0xFF;
-    b = (color) & 0xFF;
+    b = (color)& 0xFF;
 
     return al_map_rgb(r, g, b);
 }
@@ -144,7 +144,7 @@ ALLEGRO_COLOR TileMap::int_to_al_color(int color)
 void TileMap::draw_polyline(double **points, double x, double y, int pointsC, ALLEGRO_COLOR color)
 {
     int i;
-    for (i = 1; i<pointsC; i++)
+    for (i = 1; i < pointsC; i++)
     {
         al_draw_line(x + points[i - 1][0], y + points[i - 1][1], x + points[i][0], y + points[i][1], color, LINE_THICKNESS);
     }
@@ -226,7 +226,7 @@ void TileMap::draw_layer(tmx_map *map, tmx_layer *layer)
                 sw = ts->tile_width;
                 sh = ts->tile_height;
 
-                tileset = (ALLEGRO_BITMAP*) ts->image->resource_image;
+                tileset = (ALLEGRO_BITMAP*)ts->image->resource_image;
                 flags = gid_extract_flags(layer->content.gids[(y*map->width) + x]);
 
                 al_draw_tinted_bitmap_region(tileset, al_map_rgba_f(op, op, op, op),
@@ -306,7 +306,7 @@ void TileMap::readWalkProperty(int arrLength)
                     }
                 }
             }
-        } 
+        }
 
         layer = layer->next;
     }
@@ -324,10 +324,10 @@ void TileMap::identLayer(tmx_layer *layer)
             if (layer->opacity < 1.)
             {
                 float op = layer->opacity;
-                al_draw_tinted_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
+                al_draw_tinted_bitmap((ALLEGRO_BITMAP*)layer->content.image->resource_image, al_map_rgba_f(op, op, op, op), 0, 0, 0); /* TODO: does not render at correct position */
             } else
             {
-                al_draw_bitmap((ALLEGRO_BITMAP*) layer->content.image->resource_image, 0, 0, 0);
+                al_draw_bitmap((ALLEGRO_BITMAP*)layer->content.image->resource_image, 0, 0, 0);
             }
             break;
         case L_LAYER:
