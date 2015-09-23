@@ -1,5 +1,7 @@
-// MainGame.cpp : Defines the entry point for the console application.
-//
+// Copyright(c) 2015, Rodolfo Lam
+// All rights reserved.
+// See the LICENSE file located in the main directory for
+// the details.
 
 #include "stdafx.h"
 #include "src\Tool\Init.h"

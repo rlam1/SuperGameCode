@@ -1,3 +1,6 @@
+// Copyright(c) 2015, Rodolfo Lam
+// All rights reserved.
+
 // Helper functions to read the configuration file
 // to memory.
 

@@ -1,3 +1,6 @@
+// Copyright(c) 2015, Rodolfo Lam
+// All rights reserved.
+
 #pragma once
 #include "stdafx.h"
 #include <tmx.h>

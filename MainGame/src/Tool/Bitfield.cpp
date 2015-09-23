@@ -1,3 +1,6 @@
+// Copyright(c) 2015, Rodolfo Lam
+// All rights reserved.
+
 #include "stdafx.h"
 #include "Bitfield.h"
 
