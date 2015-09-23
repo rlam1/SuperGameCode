@@ -95,7 +95,7 @@ bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
     float h = ((pixSize.y - offset.y) / tileH) + y;
 
     unsigned int range = (int)x * (int)y, range2 = (int)w * (int)h;
-    if ((range || range2) > ((map->height * map->width) - 1))
+    if ((range > ((map->height * map->width) - 1)) || (range2 > ((map->height * map->width) - 1)))
     {
         std::cerr << "Warning: Tile outside range: (" << (int)x << "," << (int)y << ")" <<
             " or (" << (int)w << "," << (int)h << ")" << std::endl;
