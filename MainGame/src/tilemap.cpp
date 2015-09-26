@@ -284,7 +284,13 @@ tmx_layer *TileMap::getLayerByName(std::string name)
         } else
         {
             currLayer = currLayer->next;
-            layerName = currLayer->name;
+            if (currLayer != nullptr)
+            {
+                layerName = currLayer->name;
+            } else
+            {
+                layerName = "";
+            }
         }
     }
 
