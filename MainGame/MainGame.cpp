@@ -116,6 +116,16 @@ void AppBody()
                 {
 					Vec2D backtracing = playerVel;
 					playerVel = { 0, 0 }; // we delete player velocitity to stop oscillating in place during collision.
+                    if (backtracing == playerVel) // If for whatever reason we are stuck and cannot determine orig vector... MAGIC!
+                    {
+                        backtracing.x = 1.5f;
+                        backtracing.y = 1.0f;
+
+                        float angle = rand() % 359 + 1;
+                        backtracing.rotate(angle * (ALLEGRO_PI / 180));
+                        std::cerr << "Warning: Unknown velocity vector. Will use [" << backtracing.x << "," << backtracing.y
+                            << "] as direction to solve collision." << std::endl;
+                    }
 
 					while (map.CanWalktoTileAt(playerPos, sprt.GetSize(), { 0.0f, 32.0f }) == false)
 					{

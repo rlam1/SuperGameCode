@@ -48,6 +48,17 @@ public:
 		return Vec2D(x - vect.x, y - vect.y);
 	}
 
+    bool operator==(const Vec2D &vect) const
+    {
+        if ((x == vect.x) && (y == vect.y))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
 	/*
 	Ussage is as follows:
 
