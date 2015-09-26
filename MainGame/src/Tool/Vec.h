@@ -6,6 +6,13 @@
 	Sqrt is a very expensive function in terms of processing time.
 	It is more efficient to just divide x^2 and y^2 by mag^2 when
 	normalising
+
+    Collision(float x, float y, float ex, float ey, int width, int height)
+
+    Remember to not use square root, when calculating the distance.
+    Calculate (x - ex)*(x - ex) + (y - ey)*(y - ey) and check it with the 
+    squared critical distance (the sum of the radii of the balls). 
+    Squaring is faster than taking square roots.
 */
 
 #pragma once
