@@ -54,6 +54,7 @@ TileMap::TileMap(std::string path)
     walkTableV.reserve(arrLength);
     walkTableV.assign(arrLength, true);
     readWalkProperty(arrLength);
+    walkTableV.shrink_to_fit();
 }
 
 TileMap::~TileMap()
@@ -108,11 +109,21 @@ bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
     /*
      We find tile walkability in each of the four point of the character hitbox.
      */
-    int canWalkatPoint[4] = {1, 1, 1, 1};
-    canWalkatPoint[0] = walkTableV[((int)y * map->width) + (int)x]; // (x, y);
-    canWalkatPoint[1] = walkTableV[((int)y * map->width) + (int)w]; // (w, y);
-    canWalkatPoint[2] = walkTableV[((int)h * map->width) + (int)x]; // (x, h);
-    canWalkatPoint[3] = walkTableV[((int)h * map->width) + (int)w]; // (w, h);
+    bool canWalkatPoint[4] = {1, 1, 1, 1};
+
+    try
+    {
+        canWalkatPoint[0] = walkTableV.at(((int)y * map->width) + (int)x); // (x, y);
+        canWalkatPoint[1] = walkTableV.at(((int)y * map->width) + (int)w); // (w, y);
+        canWalkatPoint[2] = walkTableV.at(((int)h * map->width) + (int)x);// (x, h);
+        canWalkatPoint[3] = walkTableV.at(((int)h * map->width) + (int)w); // (w, h);
+    } catch (std::out_of_range& e)
+    {
+        std::cerr << "Warning: Tile outside range: (" << (int)x << "," << (int)y << ")" <<
+            " or (" << (int)w << "," << (int)h << ")" << std::endl
+            << "         Details: " << e.what() << std::endl;
+        return false;
+    }
 
     if (canWalkatPoint[0] == 0 ||
         canWalkatPoint[1] == 0 ||
