@@ -109,7 +109,7 @@ void AppBody()
                 //    if (y_offset > 0) y_offset = 0;
                 //}
 
-                if (map.CanWalktoTileAt(playerPos, sprt.GetSize(), {2.0f, 34.0f}) == true)
+                if (map.CanWalktoTileAt(playerPos, sprt.GetSize(), {0.0f, 32.0f}) == true)
                 {
                     playerPos = playerPos + playerVel;
                 } else
