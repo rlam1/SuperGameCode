@@ -315,7 +315,7 @@ void TileMap::readWalkProperty(int arrLength)
                         std::string name = props->name;
                         if (name == "canWalk")
                         {
-                            walkTableV.at(i) = atoi(props->value);
+                            walkTableV[i] = atoi(props->value);
                         }
                         props = props->next;
                     }
