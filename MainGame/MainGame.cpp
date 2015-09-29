@@ -92,24 +92,24 @@ void AppBody()
                 x_offset += key_state[0];
                 y_offset += key_state[1];
 
-                if (x_delta > 0)
-                {
-                    x_offset = x_delta / 2;
-                } else
-                {
-                    if (x_offset < x_delta) x_offset = x_delta;
-                    if (x_offset > 0) x_offset = 0;
-                }
-                if (y_delta > 0)
-                {
-                    y_offset = y_delta / 2;
-                } else
-                {
-                    if (y_offset < y_delta) y_offset = y_delta;
-                    if (y_offset > 0) y_offset = 0;
-                }
+                //if (x_delta > 0)
+                //{
+                //    x_offset = x_delta / 2;
+                //} else
+                //{
+                //    if (x_offset < x_delta) x_offset = x_delta;
+                //    if (x_offset > 0) x_offset = 0;
+                //}
+                //if (y_delta > 0)
+                //{
+                //    y_offset = y_delta / 2;
+                //} else
+                //{
+                //    if (y_offset < y_delta) y_offset = y_delta;
+                //    if (y_offset > 0) y_offset = 0;
+                //}
 
-                if (map.CanWalktoTileAt(playerPos, sprt.GetSize(), {0.0f, 32.0f}) == true)
+                if (map.CanWalktoTileAt(playerPos, sprt.GetSize(), {2.0f, 34.0f}) == true)
                 {
                     playerPos = playerPos + playerVel;
                 } else
