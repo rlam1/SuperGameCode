@@ -8,6 +8,8 @@
 void* al_img_loader2(const char* path);
 
 class TileMap {
+class TileMap
+{
 public:
     TileMap(std::string path);
     ~TileMap();
@@ -15,12 +17,12 @@ public:
     ALLEGRO_BITMAP* GetFullMap();
     void DrawLayerMap(std::string LayerName);
 
-	/*
-		pixCoord = Player's position in pixels
-	    pixSize  = Player's hitbox size
-		offset   = Used when only a specific part of the player has a hitbox.
-	*/
-	bool CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset = { 0.0, 0.0, });
+    /*
+        pixCoord = Player's position in pixels
+        pixSize  = Player's hitbox size
+        offset   = Used when only a specific part of the player has a hitbox.
+        */
+    bool CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset = {0.0, 0.0, });
 private:
     ALLEGRO_COLOR int_to_al_color(int color);
 
