@@ -87,18 +87,18 @@ bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
 {
     float tileW = map->tile_width;
     float tileH = map->tile_height;
-    float x = (pixCoord.x + offset.x) / tileW;
-    float y = (pixCoord.y + offset.y) / tileH;
-    float w = ((pixSize.x - offset.x) / tileW) + x;
-    float h = ((pixSize.y - offset.y) / tileH) + y;
+    unsigned int x = (pixCoord.x + offset.x) / tileW;
+    unsigned int y = (pixCoord.y + offset.y) / tileH;
+    unsigned int w = ((pixSize.x - offset.x) / tileW) + x;
+    unsigned int h = ((pixSize.y - offset.y) / tileH) + y;
 
-    unsigned int range1 = (int)x * (int)y;
-    unsigned int range2 = (int)w * (int)h;
+    unsigned int range1 = x * y;
+    unsigned int range2 = w * h;
     if ((range1 > ((map->height * map->width) - 1)) ||
         (range2 > ((map->height * map->width) - 1)))
     {
-        std::cerr << "Warning: Tile outside range: (" << (int)x << "," << (int)y << ")" <<
-            " or (" << (int)w << "," << (int)h << ")" << std::endl;
+        std::cerr << "Warning: Tile outside range: (" << x << "," << y << ")" <<
+            " or (" << w << "," << h << ")" << std::endl;
         return false;
     }
 
@@ -113,14 +113,14 @@ bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
 
     try
     {
-        canWalkatPoint[0] = walkTableV.at(((int)y * map->width) + (int)x); // (x, y);
-        canWalkatPoint[1] = walkTableV.at(((int)y * map->width) + (int)w); // (w, y);
-        canWalkatPoint[2] = walkTableV.at(((int)h * map->width) + (int)x);// (x, h);
-        canWalkatPoint[3] = walkTableV.at(((int)h * map->width) + (int)w); // (w, h);
+        canWalkatPoint[0] = walkTableV.at((y * map->width) + x); // (x, y);
+        canWalkatPoint[1] = walkTableV.at((y * map->width) + w); // (w, y);
+        canWalkatPoint[2] = walkTableV.at((h * map->width) + x);// (x, h);
+        canWalkatPoint[3] = walkTableV.at((h * map->width) + w); // (w, h);
     } catch (std::out_of_range& e)
     {
-        std::cerr << "Warning: Tile outside range: (" << (int)x << "," << (int)y << ")" <<
-            " or (" << (int)w << "," << (int)h << ")" << std::endl
+        std::cerr << "Warning: Tile outside range: (" << x << "," << y << ")" <<
+            " or (" << w << "," << h << ")" << std::endl
             << "         Details: " << e.what() << std::endl;
         return false;
     }
