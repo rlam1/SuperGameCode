@@ -4,10 +4,10 @@
 #pragma once
 #include "stdafx.h"
 #include <tmx.h>
+#include <vector>
 
 void* al_img_loader2(const char* path);
 
-class TileMap {
 class TileMap
 {
 public:
@@ -49,4 +49,5 @@ private:
     tmx_map *map;
     ALLEGRO_BITMAP *fullMap;       // Prerendered full map;
     int *walkTable;                // Precalculated array holding tile walkability.
+    std::vector<bool> walkTableV;
 };

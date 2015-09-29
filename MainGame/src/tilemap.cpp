@@ -55,6 +55,9 @@ TileMap::TileMap(std::string path)
     {
         walkTable[i] = 1; // Default to all spaces walkable in the tilemap
     }
+
+    walkTableV.reserve(arrLength);
+    walkTableV.assign(arrLength, true);
     readWalkProperty(arrLength);
 }
 
@@ -319,6 +322,7 @@ void TileMap::readWalkProperty(int arrLength)
                         if (name == "canWalk")
                         {
                             walkTable[i] = atoi(props->value);
+                            walkTableV.at(i) = atoi(props->value);
                         }
                         props = props->next;
                     }
