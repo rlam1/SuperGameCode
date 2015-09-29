@@ -50,11 +50,6 @@ TileMap::TileMap(std::string path)
     renderFullMap();
 
     int arrLength = map->height * map->width;
-    walkTable = new int[arrLength];
-    for (int i = 0; i < arrLength; i++)
-    {
-        walkTable[i] = 1; // Default to all spaces walkable in the tilemap
-    }
 
     walkTableV.reserve(arrLength);
     walkTableV.assign(arrLength, true);
@@ -65,7 +60,6 @@ TileMap::~TileMap()
 {
     tmx_map_free(map);
     al_destroy_bitmap(fullMap);
-    delete[] walkTable;
 }
 
 ALLEGRO_BITMAP* TileMap::GetFullMap()
@@ -321,7 +315,6 @@ void TileMap::readWalkProperty(int arrLength)
                         std::string name = props->name;
                         if (name == "canWalk")
                         {
-                            walkTable[i] = atoi(props->value);
                             walkTableV.at(i) = atoi(props->value);
                         }
                         props = props->next;

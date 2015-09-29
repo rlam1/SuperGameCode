@@ -48,6 +48,5 @@ private:
     const float LINE_THICKNESS = 2.5;
     tmx_map *map;
     ALLEGRO_BITMAP *fullMap;       // Prerendered full map;
-    int *walkTable;                // Precalculated array holding tile walkability.
-    std::vector<bool> walkTableV;
+    std::vector<bool> walkTableV;  // Precalculated array holding tile walkability.
 };
