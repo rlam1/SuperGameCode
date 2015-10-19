@@ -22,7 +22,7 @@ public:
         pixSize  = Player's hitbox size
         offset   = Used when only a specific part of the player has a hitbox.
         */
-    bool CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset = {0.0, 0.0, });
+    bool CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset = {0.0, 0.0});
 private:
     ALLEGRO_COLOR int_to_al_color(int color);
 
