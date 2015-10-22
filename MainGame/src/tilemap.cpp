@@ -50,19 +50,17 @@ TileMap::TileMap(std::string path)
     renderFullMap();
 
     int arrLength = map->height * map->width;
-    walkTable = new int[arrLength];
-    for (int i = 0; i < arrLength; i++)
-    {
-        walkTable[i] = 1; // Default to all spaces walkable in the tilemap
-    }
+
+    walkTableV.reserve(arrLength);
+    walkTableV.assign(arrLength, true);
     readWalkProperty(arrLength);
+    walkTableV.shrink_to_fit();
 }
 
 TileMap::~TileMap()
 {
     tmx_map_free(map);
     al_destroy_bitmap(fullMap);
-    delete[] walkTable;
 }
 
 ALLEGRO_BITMAP* TileMap::GetFullMap()
@@ -89,16 +87,16 @@ bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
 {
     float tileW = map->tile_width;
     float tileH = map->tile_height;
-    float x = (pixCoord.x + offset.x) / tileW;
-    float y = (pixCoord.y + offset.y) / tileH;
-    float w = ((pixSize.x - offset.x) / tileW) + x;
-    float h = ((pixSize.y - offset.y) / tileH) + y;
+    int x = (pixCoord.x + offset.x) / tileW;
+    int y = (pixCoord.y + offset.y) / tileH;
+    int w = ((pixSize.x - offset.x) / tileW) + x;
+    int h = ((pixSize.y - offset.y) / tileH) + y;
 
-    unsigned int range = (int)x * (int)y, range2 = (int)w * (int)h;
-    if ((range > ((map->height * map->width) - 1)) || (range2 > ((map->height * map->width) - 1)))
+    if ((pixCoord.x + offset.x) < 0 || (pixCoord.y + offset.y) < 0)
+        return false;
+
+    if ((w > map->width - 1) || (h > map->height - 1))
     {
-        std::cerr << "Warning: Tile outside range: (" << (int)x << "," << (int)y << ")" <<
-            " or (" << (int)w << "," << (int)h << ")" << std::endl;
         return false;
     }
 
@@ -109,11 +107,21 @@ bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
     /*
      We find tile walkability in each of the four point of the character hitbox.
      */
-    int canWalkatPoint[4] = {1, 1, 1, 1};
-    canWalkatPoint[0] = walkTable[((int)y * map->width) + (int)x]; // (x, y);
-    canWalkatPoint[1] = walkTable[((int)y * map->width) + (int)w]; // (w, y);
-    canWalkatPoint[2] = walkTable[((int)h * map->width) + (int)x]; // (x, h);
-    canWalkatPoint[3] = walkTable[((int)h * map->width) + (int)w]; // (w, h);
+    bool canWalkatPoint[4] = {1, 1, 1, 1};
+
+    try
+    {
+        canWalkatPoint[0] = walkTableV.at((y * map->width) + x); // (x, y);
+        canWalkatPoint[1] = walkTableV.at((y * map->width) + w); // (w, y);
+        canWalkatPoint[2] = walkTableV.at((h * map->width) + x);// (x, h);
+        canWalkatPoint[3] = walkTableV.at((h * map->width) + w); // (w, h);
+    } catch (std::out_of_range& e)
+    {
+        std::cerr << "Warning: Tile outside range: (" << x << "," << y << ")" <<
+            " or (" << w << "," << h << ")" << std::endl
+            << "         Details: " << e.what() << std::endl;
+        return false;
+    }
 
     if (canWalkatPoint[0] == 0 ||
         canWalkatPoint[1] == 0 ||
@@ -318,7 +326,7 @@ void TileMap::readWalkProperty(int arrLength)
                         std::string name = props->name;
                         if (name == "canWalk")
                         {
-                            walkTable[i] = atoi(props->value);
+                            walkTableV[i] = atoi(props->value);
                         }
                         props = props->next;
                     }

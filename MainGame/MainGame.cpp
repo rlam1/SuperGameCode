@@ -65,18 +65,18 @@ void AppBody()
     TileMap map("data/maps/test1.tmx");
     Sprite sprt("data/sprites/demo.adf");
     sprt.SendNewState(AnimState::IDLE, AnimDir::DOWN);
-    
+
     ALLEGRO_TRANSFORM camera;
 
     int x_offset = 0, y_offset = 0;
     int x_delta, y_delta;
-    int key_state[2] = { 0, 0 };
+    int key_state[2] = {0, 0};
 
     x_delta = applicationConfig.iDispW - al_get_bitmap_width(map.GetFullMap());
     y_delta = applicationConfig.iDispH - al_get_bitmap_height(map.GetFullMap());
 
-    Vec2D playerPos{ 0, 0 };
-    Vec2D playerVel{ 0, 0 };
+    Vec2D playerPos {0, 0};
+    Vec2D playerVel {0, 0};
 
     al_start_timer(timer);
     while (!done)
@@ -109,17 +109,17 @@ void AppBody()
                     if (y_offset > 0) y_offset = 0;
                 }
 
-				if (map.CanWalktoTileAt(playerPos, sprt.GetSize(), { 0.0f, 32.0f }) == true)
+                if (map.CanWalktoTileAt(playerPos, sprt.GetSize(), {0.0f, 32.0f}) == true)
                 {
                     playerPos = playerPos + playerVel;
                 } else
                 {
-					Vec2D backtracing = playerVel;
-					playerVel = { 0, 0 }; // we delete player velocitity to stop oscillating in place during collision.
+                    Vec2D backtracing = playerVel;
+                    playerVel = {0, 0}; // we delete player velocitity to stop oscillating in place during collision.
                     if (backtracing == playerVel) // If for whatever reason we are stuck and cannot determine orig vector... MAGIC!
                     {
-                        backtracing.x = 1.5f;
-                        backtracing.y = 1.0f;
+                        backtracing.x = 2.0f;
+                        backtracing.y = 2.0f;
 
                         float angle = rand() % 359 + 1;
                         backtracing.rotate(angle * (ALLEGRO_PI / 180));
@@ -127,10 +127,10 @@ void AppBody()
                             << "] as direction to solve collision." << std::endl;
                     }
 
-					while (map.CanWalktoTileAt(playerPos, sprt.GetSize(), { 0.0f, 32.0f }) == false)
-					{
-						playerPos = playerPos - backtracing;
-					}
+                    while (map.CanWalktoTileAt(playerPos, sprt.GetSize(), {0.0f, 32.0f}) == false)
+                    {
+                        playerPos = playerPos - backtracing;
+                    }
                 }
 
                 sprt.Update();
@@ -152,19 +152,19 @@ void AppBody()
                     case ALLEGRO_KEY_UP:    key_state[1] = 4; break;
                     case ALLEGRO_KEY_DOWN:  key_state[1] = -4; break;
 
-                    case ALLEGRO_KEY_A:     
+                    case ALLEGRO_KEY_A:
                         playerVel.x = -2;
                         sprt.SendNewState(AnimState::MOVE, AnimDir::LEFT);
                         break;
-                    case ALLEGRO_KEY_D:     
+                    case ALLEGRO_KEY_D:
                         playerVel.x = 2;
                         sprt.SendNewState(AnimState::MOVE, AnimDir::RIGHT);
                         break;
-                    case ALLEGRO_KEY_W:     
+                    case ALLEGRO_KEY_W:
                         playerVel.y = -2;
                         sprt.SendNewState(AnimState::MOVE, AnimDir::UP);
                         break;
-                    case ALLEGRO_KEY_S:     
+                    case ALLEGRO_KEY_S:
                         playerVel.y = 2;
                         sprt.SendNewState(AnimState::MOVE, AnimDir::DOWN);
                         break;
