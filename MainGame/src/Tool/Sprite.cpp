@@ -291,8 +291,8 @@ bool Sprite::parseADF(std::string resLoc)
         } else // All other sections
         {
             AnimState state;
-            int start;
-            unsigned char sides;
+            int start = 0;
+            unsigned char sides = 0;
 
             if (sectionName == sections[1])
             {

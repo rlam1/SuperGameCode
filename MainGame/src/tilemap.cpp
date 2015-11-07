@@ -89,8 +89,8 @@ bool TileMap::CanWalktoTileAt(Vec2D pixCoord, Vec2D pixSize, Vec2D offset)
     float tileH = map->tile_height;
     int x = (pixCoord.x + offset.x) / tileW;
     int y = (pixCoord.y + offset.y) / tileH;
-    int w = ((pixSize.x - offset.x) / tileW) + x;
-    int h = ((pixSize.y - offset.y) / tileH) + y;
+    unsigned int w = ((pixSize.x - offset.x) / tileW) + x;
+    unsigned int h = ((pixSize.y - offset.y) / tileH) + y;
 
     if ((pixCoord.x + offset.x) < 0 || (pixCoord.y + offset.y) < 0)
         return false;
