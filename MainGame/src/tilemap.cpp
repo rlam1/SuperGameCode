@@ -344,7 +344,7 @@ void TileMap::identLayer(tmx_layer *layer)
     switch (layer->type)
     {
         case L_OBJGR:
-            draw_objects(layer->content.head, int_to_al_color(layer->color));
+            draw_objects(layer->content.objgr->head, int_to_al_color(layer->content.objgr->color));
             break;
         case L_IMAGE:
             if (layer->opacity < 1.)
