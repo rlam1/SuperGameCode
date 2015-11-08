@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="32" tileheight="32" nextobjectid="1">
- <tileset firstgid="1" name="Village" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Village" tilewidth="32" tileheight="32" tilecount="405">
   <image source="../tilesets/adventuretiles_exterior.png" width="480" height="864"/>
   <tile id="14">
    <properties>
@@ -442,6 +442,26 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
+  <tile id="233">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="234">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="235">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
+  <tile id="236">
+   <properties>
+    <property name="canWalk" value="0"/>
+   </properties>
+  </tile>
   <tile id="238">
    <properties>
     <property name="canWalk" value="0"/>
@@ -762,11 +782,6 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
-  <tile id="353">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
   <tile id="354">
    <properties>
     <property name="canWalk" value="0"/>
@@ -788,11 +803,6 @@
    </properties>
   </tile>
   <tile id="358">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="359">
    <properties>
     <property name="canWalk" value="0"/>
    </properties>
@@ -832,11 +842,6 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
-  <tile id="368">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
   <tile id="369">
    <properties>
     <property name="canWalk" value="0"/>
@@ -858,11 +863,6 @@
    </properties>
   </tile>
   <tile id="373">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="374">
    <properties>
     <property name="canWalk" value="0"/>
    </properties>
@@ -902,11 +902,6 @@
     <property name="canWalk" value="0"/>
    </properties>
   </tile>
-  <tile id="383">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
   <tile id="384">
    <properties>
     <property name="canWalk" value="0"/>
@@ -928,11 +923,6 @@
    </properties>
   </tile>
   <tile id="388">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="389">
    <properties>
     <property name="canWalk" value="0"/>
    </properties>
@@ -963,11 +953,6 @@
    </properties>
   </tile>
   <tile id="397">
-   <properties>
-    <property name="canWalk" value="0"/>
-   </properties>
-  </tile>
-  <tile id="398">
    <properties>
     <property name="canWalk" value="0"/>
    </properties>
